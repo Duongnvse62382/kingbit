@@ -50,6 +50,9 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.androidx.room.runtime)
+
+            implementation(libs.bundles.coil)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
