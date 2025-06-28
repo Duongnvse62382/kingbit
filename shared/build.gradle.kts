@@ -44,7 +44,6 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(libs.moko.resources)
-            implementation(libs.ktor.client.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
@@ -52,6 +51,7 @@ kotlin {
             implementation(libs.androidx.room.runtime)
 
             implementation(libs.bundles.coil)
+            implementation(libs.bundles.ktor)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             api(libs.koin.core)
