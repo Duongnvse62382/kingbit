@@ -1,4 +1,6 @@
 package com.king.kingbit.presentation.login
 
-class LoginViewModel {
+import androidx.lifecycle.ViewModel
+
+class LoginViewModel : ViewModel() {
 }
