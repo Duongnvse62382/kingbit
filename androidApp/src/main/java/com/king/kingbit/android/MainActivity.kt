@@ -8,7 +8,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.king.kingbit.Greeting
+
+import com.king.kingbit.android.presentation.login.LoginScreen
+import com.king.kingbit.login.presentation.LoginViewModel
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +22,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GreetingView(Greeting().greet())
+                    val viewModel = koinViewModel<LoginViewModel>()
+                    LoginScreen(viewModel)
                 }
             }
         }

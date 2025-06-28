@@ -15,6 +15,7 @@
     <uses-permission android:name="com.king.kingbit.android.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
+        android:name="com.king.kingbit.android.KingBitApplication"
         android:allowBackup="false"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
