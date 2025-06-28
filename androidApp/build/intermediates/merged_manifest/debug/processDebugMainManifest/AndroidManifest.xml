@@ -37,6 +37,11 @@
             android:name="androidx.compose.ui.tooling.PreviewActivity"
             android:exported="true" />
 
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:directBootAware="true"
+            android:exported="false" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.king.kingbit.android.androidx-startup"
