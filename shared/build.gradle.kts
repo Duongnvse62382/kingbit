@@ -38,11 +38,11 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
-            implementation(libs.koin.core)
             implementation(libs.moko.resources)
             implementation(libs.ktor.client.core)
             implementation(libs.kotlinx.coroutines.core)
@@ -52,6 +52,9 @@ kotlin {
             implementation(libs.androidx.room.runtime)
 
             implementation(libs.bundles.coil)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            api(libs.koin.core)
 
         }
         commonTest.dependencies {
