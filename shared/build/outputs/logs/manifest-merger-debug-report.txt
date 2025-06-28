@@ -1,16 +1,16 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4032322099922638735.xml:2:13-83
-INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4032322099922638735.xml:2:13-83
+ADDED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10866205257145708968.xml:2:13-83
+INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10866205257145708968.xml:2:13-83
 	package
-		INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4032322099922638735.xml
+		INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10866205257145708968.xml
 	xmlns:android
-		ADDED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4032322099922638735.xml:2:23-81
+		ADDED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10866205257145708968.xml:2:23-81
 uses-sdk
-INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4032322099922638735.xml reason: use-sdk injection requested
-INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4032322099922638735.xml
-INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4032322099922638735.xml
+INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10866205257145708968.xml reason: use-sdk injection requested
+INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10866205257145708968.xml
+INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10866205257145708968.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4032322099922638735.xml
+		INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10866205257145708968.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest4032322099922638735.xml
+		INJECTED from C:\Users\pc\AndroidStudioProjects\KingBit\shared\build\intermediates\tmp\ProcessLibraryManifest\debug\tempAndroidManifest10866205257145708968.xml
