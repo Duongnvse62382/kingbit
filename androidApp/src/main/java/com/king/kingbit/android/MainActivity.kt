@@ -8,22 +8,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-
 import com.king.kingbit.android.presentation.login.LoginScreen
-import com.king.kingbit.login.presentation.LoginViewModel
-import org.koin.androidx.compose.koinViewModel
+import com.king.kingbit.android.theme.KingBitTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyApplicationTheme {
+            KingBitTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val viewModel = koinViewModel<LoginViewModel>()
-                    LoginScreen(viewModel)
+                    color = MaterialTheme.colorScheme.background) {
+                    LoginScreen()
                 }
             }
         }

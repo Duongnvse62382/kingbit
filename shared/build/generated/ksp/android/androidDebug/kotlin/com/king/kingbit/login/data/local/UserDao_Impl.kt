@@ -6,7 +6,6 @@ import androidx.room.util.getColumnIndexOrThrow
 import androidx.room.util.performSuspending
 import androidx.sqlite.SQLiteStatement
 import com.king.kingbit.login.`data`.local.model.UserEntity
-import javax.`annotation`.processing.Generated
 import kotlin.Int
 import kotlin.String
 import kotlin.Suppress
@@ -14,7 +13,6 @@ import kotlin.Unit
 import kotlin.collections.List
 import kotlin.reflect.KClass
 
-@Generated(value = ["androidx.room.RoomProcessor"])
 @Suppress(names = ["UNCHECKED_CAST", "DEPRECATION", "REDUNDANT_PROJECTION", "REMOVAL"])
 public class UserDao_Impl(
   __db: RoomDatabase,
@@ -48,17 +46,17 @@ public class UserDao_Impl(
       try {
         var _argIndex: Int = 1
         _stmt.bindText(_argIndex, username)
-        val _cursorIndexOfId: Int = getColumnIndexOrThrow(_stmt, "id")
-        val _cursorIndexOfUsername: Int = getColumnIndexOrThrow(_stmt, "username")
-        val _cursorIndexOfPassword: Int = getColumnIndexOrThrow(_stmt, "password")
+        val _columnIndexOfId: Int = getColumnIndexOrThrow(_stmt, "id")
+        val _columnIndexOfUsername: Int = getColumnIndexOrThrow(_stmt, "username")
+        val _columnIndexOfPassword: Int = getColumnIndexOrThrow(_stmt, "password")
         val _result: UserEntity?
         if (_stmt.step()) {
           val _tmpId: Int
-          _tmpId = _stmt.getLong(_cursorIndexOfId).toInt()
+          _tmpId = _stmt.getLong(_columnIndexOfId).toInt()
           val _tmpUsername: String
-          _tmpUsername = _stmt.getText(_cursorIndexOfUsername)
+          _tmpUsername = _stmt.getText(_columnIndexOfUsername)
           val _tmpPassword: String
-          _tmpPassword = _stmt.getText(_cursorIndexOfPassword)
+          _tmpPassword = _stmt.getText(_columnIndexOfPassword)
           _result = UserEntity(_tmpId,_tmpUsername,_tmpPassword)
         } else {
           _result = null

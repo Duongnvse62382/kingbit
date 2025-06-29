@@ -13,6 +13,5 @@ val sharedModule = module {
     single { get<AppDatabase>().userDao() }
     single { HttpClientFactory.create(get()) }
 
-    singleOf(::DefaultUserRepository).bind<UserRepository>()
     viewModelOf(::LoginViewModel)
 }

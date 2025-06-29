@@ -9,7 +9,6 @@ import androidx.room.util.TableInfo.Companion.read
 import androidx.room.util.dropFtsSyncTriggers
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
-import javax.`annotation`.processing.Generated
 import kotlin.Lazy
 import kotlin.String
 import kotlin.Suppress
@@ -24,13 +23,11 @@ import kotlin.collections.mutableMapOf
 import kotlin.collections.mutableSetOf
 import kotlin.reflect.KClass
 
-@Generated(value = ["androidx.room.RoomProcessor"])
 @Suppress(names = ["UNCHECKED_CAST", "DEPRECATION", "REDUNDANT_PROJECTION", "REMOVAL"])
 public class AppDatabase_Impl : AppDatabase() {
   private val _userDao: Lazy<UserDao> = lazy {
     UserDao_Impl(this)
   }
-
 
   protected override fun createOpenDelegate(): RoomOpenDelegate {
     val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(1,

@@ -41,6 +41,7 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.compose.material3)
         }
         commonMain.dependencies {
             implementation(libs.moko.resources)
@@ -49,6 +50,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.androidx.room.runtime)
+            implementation(libs.compose.material3)
 
             implementation(libs.bundles.coil)
             implementation(libs.bundles.ktor)

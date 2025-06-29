@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.king.kingbit.android.androidApp-mergeDebugResources-60:/values-es-rUS/values-es-rUS.xml",
+            "outputFile": "com.king.kingbit.android.androidApp-mergeDebugResources-66:/values-es-rUS/values-es-rUS.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\632500453c3aa02c1a98a2efcf5e988e\\transformed\\appcompat-1.7.0\\res\\values-es-rUS\\values-es-rUS.xml",
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\f8e435003ab210f3a8ce8a120a44f794\\transformed\\appcompat-1.7.0\\res\\values-es-rUS\\values-es-rUS.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\fd9cee64297c415eba4d7c35c1b1e6df\\transformed\\foundation-release\\res\\values-es-rUS\\values-es-rUS.xml",
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\e09697f6b3c8edf8611a62a084d9ae23\\transformed\\foundation-release\\res\\values-es-rUS\\values-es-rUS.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\a01b2f43fd132099234eb74c5978219e\\transformed\\material3-release\\res\\values-es-rUS\\values-es-rUS.xml",
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\da9cee50ae67a6f9c5ad2261adc49615\\transformed\\material3-release\\res\\values-es-rUS\\values-es-rUS.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -55,24 +55,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\683da043bf544e3b0112161416682bc0\\transformed\\core-1.13.1\\res\\values-es-rUS\\values-es-rUS.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,154,256,356,454,561,667,787",
-                        "endColumns": "98,101,99,97,106,105,119,100",
-                        "endOffsets": "149,251,351,449,556,662,782,883"
-                    },
-                    "to": {
-                        "startLines": "30,31,32,33,34,35,36,111",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "2901,3000,3102,3202,3300,3407,3513,11473",
-                        "endColumns": "98,101,99,97,106,105,119,100",
-                        "endOffsets": "2995,3097,3197,3295,3402,3508,3628,11569"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\83dbf7aa98bc5523263d6ea3c3bb9e53\\transformed\\ui-release\\res\\values-es-rUS\\values-es-rUS.xml",
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\21955d524d43c7652087ef919a1f2362\\transformed\\ui-release\\res\\values-es-rUS\\values-es-rUS.xml",
                     "from": {
                         "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -86,6 +69,23 @@
                         "startOffsets": "3633,3732,3814,3912,4015,4104,4183,10640,10732,10819,10906,11079,11156,11241,11317,11397,11574,11652,11722",
                         "endColumns": "98,81,97,102,88,78,95,91,86,86,89,76,84,75,79,75,77,69,122",
                         "endOffsets": "3727,3809,3907,4010,4099,4178,4274,10727,10814,10901,10991,11151,11236,11312,11392,11468,11647,11717,11840"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\571292a3d24cc1a383b54d857b85d261\\transformed\\core-1.13.1\\res\\values-es-rUS\\values-es-rUS.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,154,256,356,454,561,667,787",
+                        "endColumns": "98,101,99,97,106,105,119,100",
+                        "endOffsets": "149,251,351,449,556,662,782,883"
+                    },
+                    "to": {
+                        "startLines": "30,31,32,33,34,35,36,111",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "2901,3000,3102,3202,3300,3407,3513,11473",
+                        "endColumns": "98,101,99,97,106,105,119,100",
+                        "endOffsets": "2995,3097,3197,3295,3402,3508,3628,11569"
                     }
                 }
             ]

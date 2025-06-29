@@ -66,7 +66,9 @@ attr actionOverflowButtonStyle
 attr actionOverflowMenuStyle
 attr actionProviderClass
 attr actionViewClass
+attr activityAction
 attr activityChooserViewStyle
+attr activityName
 attr alertDialogButtonGroupStyle
 attr alertDialogCenterButtons
 attr alertDialogStyle
@@ -74,6 +76,8 @@ attr alertDialogTheme
 attr allowStacking
 attr alpha
 attr alphabeticModifiers
+attr alwaysExpand
+attr animationBackgroundColor
 attr argType
 attr arrowHeadLength
 attr arrowShaftLength
@@ -108,6 +112,7 @@ attr checkMarkTint
 attr checkMarkTintMode
 attr checkboxStyle
 attr checkedTextViewStyle
+attr clearTop
 attr closeIcon
 attr closeItemLayout
 attr collapseContentDescription
@@ -165,6 +170,9 @@ attr emojiCompatEnabled
 attr enterAnim
 attr exitAnim
 attr expandActivityOverflowButtonDrawable
+attr finishPrimaryWithPlaceholder
+attr finishPrimaryWithSecondary
+attr finishSecondaryWithPrimary
 attr firstBaselineToTopHeight
 attr font
 attr fontFamily
@@ -236,6 +244,7 @@ attr paddingTopNoTitle
 attr panelBackground
 attr panelMenuListTheme
 attr panelMenuListWidth
+attr placeholderActivityName
 attr popEnterAnim
 attr popExitAnim
 attr popUpTo
@@ -245,6 +254,7 @@ attr popupMenuStyle
 attr popupTheme
 attr popupWindowStyle
 attr preserveIconSpacing
+attr primaryActivityName
 attr progressBarPadding
 attr progressBarStyle
 attr queryBackground
@@ -259,6 +269,8 @@ attr route
 attr searchHintIcon
 attr searchIcon
 attr searchViewStyle
+attr secondaryActivityAction
+attr secondaryActivityName
 attr seekBarStyle
 attr selectableItemBackground
 attr selectableItemBackgroundBorderless
@@ -271,10 +283,18 @@ attr singleChoiceItemLayout
 attr spinBars
 attr spinnerDropDownItemStyle
 attr spinnerStyle
+attr splitLayoutDirection
+attr splitMaxAspectRatioInLandscape
+attr splitMaxAspectRatioInPortrait
+attr splitMinHeightDp
+attr splitMinSmallestWidthDp
+attr splitMinWidthDp
+attr splitRatio
 attr splitTrack
 attr srcCompat
 attr startDestination
 attr state_above_anchor
+attr stickyPlaceholder
 attr subMenuArrow
 attr submitBackground
 attr subtitle
@@ -286,6 +306,7 @@ attr switchMinWidth
 attr switchPadding
 attr switchStyle
 attr switchTextAppearance
+attr tag
 attr targetPackage
 attr textAllCaps
 attr textAppearanceLargePopupMenu
@@ -723,13 +744,18 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id adjacent
 id alertTitle
 id always
+id alwaysAllow
+id alwaysDisallow
 id androidx_compose_ui_view_composition_context
+id androidx_window_activity_scope
 id async
 id beginning
 id blocking
 id bottom
+id bottomToTop
 id buttonPanel
 id center_vertical
 id checkbox
@@ -772,6 +798,8 @@ id line1
 id line3
 id listMode
 id list_item
+id locale
+id ltr
 id message
 id middle
 id multiply
@@ -792,6 +820,7 @@ id radio
 id report_drawn
 id right_icon
 id right_side
+id rtl
 id screen
 id scrollIndicatorDown
 id scrollIndicatorUp
@@ -843,6 +872,7 @@ id titleDividerNoCustom
 id title_template
 id top
 id topPanel
+id topToBottom
 id unchecked
 id uniform
 id up
@@ -1392,7 +1422,9 @@ styleable ActionMenuItemView android_minWidth
 styleable ActionMenuView
 styleable ActionMode background backgroundSplit closeItemLayout height subtitleTextStyle titleTextStyle
 styleable ActivityChooserView expandActivityOverflowButtonDrawable initialActivityCount
+styleable ActivityFilter activityAction activityName
 styleable ActivityNavigator android_name action data dataPattern targetPackage
+styleable ActivityRule alwaysExpand tag
 styleable AlertDialog android_layout buttonIconDimen buttonPanelSideLayout listItemLayout listLayout multiChoiceItemLayout showTitle singleChoiceItemLayout
 styleable AnimatedStateListDrawableCompat android_dither android_visible android_variablePadding android_constantSize android_enterFadeDuration android_exitFadeDuration
 styleable AnimatedStateListDrawableItem android_id android_drawable
@@ -1433,6 +1465,9 @@ styleable PopupWindowBackgroundState state_above_anchor
 styleable RecycleListView paddingBottomNoButtons paddingTopNoTitle
 styleable SearchView android_focusable android_maxWidth android_inputType android_imeOptions closeIcon commitIcon defaultQueryHint goIcon iconifiedByDefault layout queryBackground queryHint searchHintIcon searchIcon submitBackground suggestionRowLayout voiceIcon
 styleable Spinner android_entries android_popupBackground android_prompt android_dropDownWidth popupTheme
+styleable SplitPairFilter primaryActivityName secondaryActivityAction secondaryActivityName
+styleable SplitPairRule animationBackgroundColor clearTop finishPrimaryWithSecondary finishSecondaryWithPrimary splitLayoutDirection splitMaxAspectRatioInLandscape splitMaxAspectRatioInPortrait splitMinHeightDp splitMinSmallestWidthDp splitMinWidthDp splitRatio tag
+styleable SplitPlaceholderRule animationBackgroundColor finishPrimaryWithPlaceholder placeholderActivityName splitLayoutDirection splitMaxAspectRatioInLandscape splitMaxAspectRatioInPortrait splitMinHeightDp splitMinSmallestWidthDp splitMinWidthDp splitRatio stickyPlaceholder tag
 styleable StateListDrawable android_dither android_visible android_variablePadding android_constantSize android_enterFadeDuration android_exitFadeDuration
 styleable StateListDrawableItem android_drawable
 styleable SwitchCompat android_textOn android_textOff android_thumb showText splitTrack switchMinWidth switchPadding switchTextAppearance thumbTextPadding thumbTint thumbTintMode track trackTint trackTintMode
