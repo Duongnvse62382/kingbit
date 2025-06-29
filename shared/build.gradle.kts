@@ -58,7 +58,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             api(libs.koin.core)
             implementation(libs.jetbrains.compose.navigation)
-
+            implementation(libs.sqlite.bundled)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

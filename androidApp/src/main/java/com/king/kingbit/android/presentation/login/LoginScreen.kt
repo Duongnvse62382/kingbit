@@ -33,13 +33,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.king.kingbit.android.design.NoteMarkButton
 import com.king.kingbit.android.design.NoteMarkLink
 import com.king.kingbit.android.design.NoteMarkTextField
 import com.king.kingbit.android.util.DeviceConfiguration
+import com.king.kingbit.login.presentation.LoginViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
+    val state by loginViewModel.state.collectAsStateWithLifecycle()
+
     var emailText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
     Scaffold(
@@ -77,6 +82,11 @@ fun LoginScreen() {
                         onEmailTextChange = { emailText = it },
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
+                        onLogin = {
+                            loginViewModel.login(
+                                emailText, passwordText
+                            )
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                     )
@@ -100,6 +110,11 @@ fun LoginScreen() {
                         onEmailTextChange = { emailText = it },
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
+                        onLogin = {
+                            loginViewModel.login(
+                                emailText, passwordText
+                            )
+                        },
                         modifier = Modifier
                             .weight(1f)
                             .verticalScroll(rememberScrollState())
@@ -126,6 +141,11 @@ fun LoginScreen() {
                         onEmailTextChange = { emailText = it },
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
+                        onLogin = {
+                            loginViewModel.login(
+                                emailText, passwordText
+                            )
+                        },
                         modifier = Modifier
                             .widthIn(max = 540.dp)
                     )
@@ -161,6 +181,7 @@ fun LoginFormSection(
     onEmailTextChange: (String) -> Unit,
     passwordText: String,
     onPasswordTextChange: (String) -> Unit,
+    onLogin : () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -170,7 +191,7 @@ fun LoginFormSection(
             text = emailText,
             onValueChange = onEmailTextChange,
             label = "Email",
-            hint = "john.doe@example.com",
+            hint = "duong.nv@gmail.com",
             isInputSecret = false,
             modifier = Modifier
                 .fillMaxWidth()
@@ -188,7 +209,7 @@ fun LoginFormSection(
         Spacer(modifier = Modifier.height(24.dp))
         NoteMarkButton(
             text = "Log In",
-            onClick = {},
+            onClick = onLogin,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))

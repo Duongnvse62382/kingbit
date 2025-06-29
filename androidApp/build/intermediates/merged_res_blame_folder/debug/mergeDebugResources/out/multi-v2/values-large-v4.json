@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.king.kingbit.android.androidApp-mergeDebugResources-66:/values-large-v4/values-large-v4.xml",
+            "outputFile": "com.king.kingbit.android.androidApp-mergeDebugResources-67:/values-large-v4/values-large-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\f8e435003ab210f3a8ce8a120a44f794\\transformed\\appcompat-1.7.0\\res\\values-large-v4\\values-large-v4.xml",
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\2b7d6795c98b02627f4ea8969f2fada5\\transformed\\appcompat-1.7.0\\res\\values-large-v4\\values-large-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",
