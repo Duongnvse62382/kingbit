@@ -21,43 +21,45 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
     val event = _event.asSharedFlow()
 
     fun onAction(loginAction: LoginAction) {
-        when(loginAction) {
-            is LoginAction.LoginKingBit -> {
-                login(loginAction.username, loginAction.password)
-            }
+        viewModelScope.launch {
+            when (loginAction) {
+                is LoginAction.LoginKingBit -> {
+                    login(loginAction.username, loginAction.password)
+                }
 
-            is LoginAction.RegisterKingBit -> {
-                register(loginAction.username, loginAction.password)
+                is LoginAction.RegisterKingBit -> {
+                    register(loginAction.username, loginAction.password)
+                }
+
+                is LoginAction.ResetLogin -> {
+                    _event.emit(LoginEvent.Ide)
+                }
             }
         }
     }
 
-    private fun login(username: String, password: String) {
-        viewModelScope.launch {
-            _loginState.update {
-                it.copy(uiState = LoginUiState.Loading)
-            }
-            delay(1000)
-            val result = repository.login(username, password)
-            if (result) {
-                _event.emit(LoginEvent.NavigateHome)
-            } else {
-                _event.emit(LoginEvent.ShowError("Login Fail"))
-            }
+    private suspend fun login(username: String, password: String) {
+        _loginState.update {
+            it.copy(uiState = LoginUiState.Loading)
+        }
+        delay(1000)
+        val result = repository.login(username, password)
+        if (result) {
+            _event.emit(LoginEvent.NavigateHome)
+        } else {
+            _event.emit(LoginEvent.ShowError("Login Fail"))
         }
     }
 
-    private fun register(username: String, password: String) {
-        viewModelScope.launch {
-            _loginState.update {
-                it.copy(uiState = LoginUiState.Loading)
-            }
-            val result = repository.register(username, password)
-            if (result) {
-                _event.emit(LoginEvent.NavigateHome)
-            } else {
-                _event.emit(LoginEvent.ShowError("register Fail"))
-            }
+    private suspend fun register(username: String, password: String) {
+        _loginState.update {
+            it.copy(uiState = LoginUiState.Loading)
+        }
+        val result = repository.register(username, password)
+        if (result) {
+            _event.emit(LoginEvent.NavigateHome)
+        } else {
+            _event.emit(LoginEvent.ShowError("register Fail"))
         }
     }
 }

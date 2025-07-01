@@ -66,9 +66,15 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                 is LoginEvent.ShowError -> {
                     showDialog = true
                 }
+
+                is LoginEvent.Ide -> {
+                    showDialog = false
+                }
+
                 is LoginEvent.NavigateHome -> {
 
                 }
+
             }
         }
     }
@@ -113,7 +119,7 @@ fun LoginScreen(loginState : LoginState, showDialog : Boolean, onAction : (Login
             LoginErrorDialog(
                 message = "LoginFail",
                 onDismiss = {
-                    false
+                    onAction(LoginAction.ResetLogin)
                 }
             )
         }
