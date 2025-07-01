@@ -35,6 +35,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,19 +51,33 @@ import com.king.kingbit.android.design.KingBitLink
 import com.king.kingbit.android.design.KingBitTextField
 import com.king.kingbit.android.util.DeviceConfiguration
 import com.king.kingbit.login.presentation.LoginAction
+import com.king.kingbit.login.presentation.LoginEvent
 import com.king.kingbit.login.presentation.LoginState
 import com.king.kingbit.login.presentation.LoginViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
-    val state by loginViewModel.state.collectAsStateWithLifecycle()
-    LoginScreen(state = state, onAction = loginViewModel::onAction)
+    var showDialog by remember { mutableStateOf(false) }
+    val loginState by loginViewModel.loginState.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) {
+        loginViewModel.event.collect { event ->
+            when (event) {
+                is LoginEvent.ShowError -> {
+                    showDialog = true
+                }
+                is LoginEvent.NavigateHome -> {
+
+                }
+            }
+        }
+    }
+    LoginScreen(loginState =loginState, showDialog = showDialog, onAction = loginViewModel::onAction)
 }
 
 
 @Composable
-fun LoginScreen(state: LoginState, onAction : (LoginAction) -> Unit) {
+fun LoginScreen(loginState : LoginState, showDialog : Boolean, onAction : (LoginAction) -> Unit) {
 
     var emailText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
@@ -70,7 +85,6 @@ fun LoginScreen(state: LoginState, onAction : (LoginAction) -> Unit) {
     var showPassword by remember { mutableStateOf(false) }
     var passwordError by remember { mutableStateOf("") }
     var emailError by remember { mutableStateOf("") }
-    var showDialog by remember { mutableStateOf(false) }
 
 
 
@@ -95,16 +109,12 @@ fun LoginScreen(state: LoginState, onAction : (LoginAction) -> Unit) {
             )
             .consumeWindowInsets(WindowInsets.navigationBars)
 
-        LaunchedEffect(state) {
-            if (state is LoginState.LoginFailed) {
-                showDialog = true
-            }
-        }
-
         if (showDialog) {
             LoginErrorDialog(
                 message = "LoginFail",
-                onDismiss = { showDialog = false }
+                onDismiss = {
+                    false
+                }
             )
         }
 

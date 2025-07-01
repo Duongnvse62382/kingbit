@@ -3,13 +3,22 @@ package com.king.kingbit.login.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.king.kingbit.login.domain.usecase.UserRepository
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: UserRepository) : ViewModel() {
-    private val _state = MutableStateFlow<LoginState>(LoginState.Idle)
-    val state: StateFlow<LoginState> = _state
+
+    private val _loginState = MutableStateFlow(LoginState())
+    val loginState = _loginState.asStateFlow()
+
+    private val _event = MutableSharedFlow<LoginEvent>()
+    val event = _event.asSharedFlow()
 
     fun onAction(loginAction: LoginAction) {
         when(loginAction) {
@@ -25,17 +34,30 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
     private fun login(username: String, password: String) {
         viewModelScope.launch {
-            _state.value = LoginState.Loading
-            _state.value = if (repository.login(username, password)) LoginState.LoginSuccess
-            else LoginState.LoginFailed
+            _loginState.update {
+                it.copy(uiState = LoginUiState.Loading)
+            }
+            delay(1000)
+            val result = repository.login(username, password)
+            if (result) {
+                _event.emit(LoginEvent.NavigateHome)
+            } else {
+                _event.emit(LoginEvent.ShowError("Login Fail"))
+            }
         }
     }
 
     private fun register(username: String, password: String) {
         viewModelScope.launch {
-            _state.value = LoginState.Loading
-            _state.value = if (repository.register(username, password)) LoginState.RegisterSuccess
-            else LoginState.RegisterFailed
+            _loginState.update {
+                it.copy(uiState = LoginUiState.Loading)
+            }
+            val result = repository.register(username, password)
+            if (result) {
+                _event.emit(LoginEvent.NavigateHome)
+            } else {
+                _event.emit(LoginEvent.ShowError("register Fail"))
+            }
         }
     }
 }
