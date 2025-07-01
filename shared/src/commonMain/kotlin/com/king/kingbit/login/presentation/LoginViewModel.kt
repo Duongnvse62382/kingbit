@@ -11,7 +11,19 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
     private val _state = MutableStateFlow<LoginState>(LoginState.Idle)
     val state: StateFlow<LoginState> = _state
 
-    fun login(username: String, password: String) {
+    fun onAction(loginAction: LoginAction) {
+        when(loginAction) {
+            is LoginAction.LoginKingBit -> {
+                login(loginAction.username, loginAction.password)
+            }
+
+            is LoginAction.RegisterKingBit -> {
+                register(loginAction.username, loginAction.password)
+            }
+        }
+    }
+
+    private fun login(username: String, password: String) {
         viewModelScope.launch {
             _state.value = LoginState.Loading
             _state.value = if (repository.login(username, password)) LoginState.LoginSuccess
@@ -19,7 +31,7 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
         }
     }
 
-    fun register(username: String, password: String) {
+    private fun register(username: String, password: String) {
         viewModelScope.launch {
             _state.value = LoginState.Loading
             _state.value = if (repository.register(username, password)) LoginState.RegisterSuccess

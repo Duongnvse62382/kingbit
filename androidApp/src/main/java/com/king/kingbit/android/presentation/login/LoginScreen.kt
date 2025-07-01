@@ -1,7 +1,9 @@
 package com.king.kingbit.android.presentation.login
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,11 +22,19 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.Warning
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,21 +42,38 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.king.kingbit.android.design.NoteMarkButton
-import com.king.kingbit.android.design.NoteMarkLink
-import com.king.kingbit.android.design.NoteMarkTextField
+import com.king.kingbit.android.design.KingBitButton
+import com.king.kingbit.android.design.KingBitLink
+import com.king.kingbit.android.design.KingBitTextField
 import com.king.kingbit.android.util.DeviceConfiguration
+import com.king.kingbit.login.presentation.LoginAction
+import com.king.kingbit.login.presentation.LoginState
 import com.king.kingbit.login.presentation.LoginViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
     val state by loginViewModel.state.collectAsStateWithLifecycle()
+    LoginScreen(state = state, onAction = loginViewModel::onAction)
+}
+
+
+@Composable
+fun LoginScreen(state: LoginState, onAction : (LoginAction) -> Unit) {
 
     var emailText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
+
+    var showPassword by remember { mutableStateOf(false) }
+    var passwordError by remember { mutableStateOf("") }
+    var emailError by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+
+
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -55,10 +82,12 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
         val rootModifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
-            .clip(RoundedCornerShape(
-                topStart = 15.dp,
-                topEnd = 15.dp
-            ))
+            .clip(
+                RoundedCornerShape(
+                    topStart = 15.dp,
+                    topEnd = 15.dp
+                )
+            )
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
             .padding(
                 horizontal = 16.dp,
@@ -66,9 +95,21 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
             )
             .consumeWindowInsets(WindowInsets.navigationBars)
 
+        LaunchedEffect(state) {
+            if (state is LoginState.LoginFailed) {
+                showDialog = true
+            }
+        }
+
+        if (showDialog) {
+            LoginErrorDialog(
+                message = "LoginFail",
+                onDismiss = { showDialog = false }
+            )
+        }
+
         val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-        val deviceConfiguration = DeviceConfiguration.fromWindowSizeClass(windowSizeClass)
-        when(deviceConfiguration) {
+        when(DeviceConfiguration.fromWindowSizeClass(windowSizeClass)) {
             DeviceConfiguration.MOBILE_PORTRAIT -> {
                 Column(
                     modifier = rootModifier,
@@ -83,8 +124,11 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
                         onLogin = {
-                            loginViewModel.login(
-                                emailText, passwordText
+                            onAction(
+                                LoginAction.LoginKingBit(
+                                    username = emailText,
+                                    password = passwordText
+                                )
                             )
                         },
                         modifier = Modifier
@@ -111,9 +155,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
                         onLogin = {
-                            loginViewModel.login(
-                                emailText, passwordText
-                            )
+                            onAction(LoginAction.LoginKingBit(username = emailText, password = passwordText))
                         },
                         modifier = Modifier
                             .weight(1f)
@@ -142,9 +184,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
                         onLogin = {
-                            loginViewModel.login(
-                                emailText, passwordText
-                            )
+                            onAction(LoginAction.LoginKingBit(username = emailText, password = passwordText))
                         },
                         modifier = Modifier
                             .widthIn(max = 540.dp)
@@ -187,7 +227,7 @@ fun LoginFormSection(
     Column(
         modifier = modifier
     ) {
-        NoteMarkTextField(
+        KingBitTextField(
             text = emailText,
             onValueChange = onEmailTextChange,
             label = "Email",
@@ -197,7 +237,7 @@ fun LoginFormSection(
                 .fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
-        NoteMarkTextField(
+        KingBitTextField(
             text = passwordText,
             onValueChange = onPasswordTextChange,
             label = "Password",
@@ -207,17 +247,71 @@ fun LoginFormSection(
                 .fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(24.dp))
-        NoteMarkButton(
+        KingBitButton(
             text = "Log In",
             onClick = onLogin,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
-        NoteMarkLink(
+        KingBitLink(
             text = "Don't have an account?",
             onClick = {},
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         )
     }
+}
+
+@Composable
+fun LoginErrorDialog(
+    message: String,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        shape = RoundedCornerShape(10.dp),
+        tonalElevation = 12.dp, // shadow
+        containerColor = MaterialTheme.colorScheme.surface,
+        titleContentColor = MaterialTheme.colorScheme.onSurface,
+        textContentColor = MaterialTheme.colorScheme.onSurface,
+        title = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Warning,
+                    contentDescription = "Login failed",
+                    tint = MaterialTheme.colorScheme.error
+                )
+                Text(
+                    text = "Login Failed",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+        },
+        text = {
+            Text(
+                text = message,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        },
+        confirmButton = {
+            Button(
+                onClick = onDismiss,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text("OK")
+            }
+        },
+        modifier = Modifier
+            .padding(horizontal = 24.dp)
+            .border(
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                shape = RoundedCornerShape(16.dp)
+            )
+    )
 }
