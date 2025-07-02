@@ -6,7 +6,7 @@ sealed class LoginUiState() {
 }
 
 sealed class LoginEvent {
-    data object Ide: LoginEvent()
+    data object Idle: LoginEvent()
     data class ShowError(val message: String): LoginEvent()
     data object NavigateHome: LoginEvent()
 }

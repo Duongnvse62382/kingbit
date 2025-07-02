@@ -1,6 +1,11 @@
 R_DEF: Internal format may change without notice
 local
+drawable eye_open
+drawable eye_slash
+drawable ic_email
 drawable ic_launcher_background
+drawable ic_login_image
+drawable ic_password
 mipmap ic_launcher
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round
