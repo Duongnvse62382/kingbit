@@ -12,9 +12,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun KingBitButton(
+    modifier: Modifier = Modifier,
     text: String,
+    enabled : Boolean = false,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
@@ -23,7 +24,8 @@ fun KingBitButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary
         ),
-        contentPadding = PaddingValues(12.dp)
+        contentPadding = PaddingValues(12.dp),
+        enabled = enabled
     ) {
         Text(
             text = text,

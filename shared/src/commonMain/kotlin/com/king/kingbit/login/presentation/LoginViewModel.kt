@@ -38,9 +38,6 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
     }
 
     private suspend fun login(username: String, password: String) {
-        _loginState.update {
-            it.copy(uiState = LoginUiState.Loading)
-        }
         delay(1000)
         val result = repository.login(username, password)
         if (result) {
@@ -51,9 +48,6 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
     }
 
     private suspend fun register(username: String, password: String) {
-        _loginState.update {
-            it.copy(uiState = LoginUiState.Loading)
-        }
         val result = repository.register(username, password)
         if (result) {
             _event.emit(LoginEvent.NavigateHome)

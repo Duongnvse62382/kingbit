@@ -1,9 +1,8 @@
 package com.king.kingbit.android.presentation.login
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,11 +23,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Warning
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -42,17 +36,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.king.kingbit.android.R
 import com.king.kingbit.android.design.KingBitButton
 import com.king.kingbit.android.design.KingBitLink
 import com.king.kingbit.android.design.KingBitTextField
+import com.king.kingbit.android.presentation.login.components.ConnectWithApp
+import com.king.kingbit.android.presentation.login.components.ConnectWithDivider
+import com.king.kingbit.android.presentation.login.components.CustomDialogUI
 import com.king.kingbit.android.util.DeviceConfiguration
 import com.king.kingbit.login.presentation.LoginAction
 import com.king.kingbit.login.presentation.LoginEvent
@@ -83,9 +85,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
         }
     }
     LoginScreen(
-        loginState = loginState,
-        showDialog = showDialog,
-        onAction = loginViewModel::onAction
+        loginState = loginState, showDialog = showDialog, onAction = loginViewModel::onAction
     )
 }
 
@@ -95,44 +95,45 @@ fun LoginScreen(loginState: LoginState, showDialog: Boolean, onAction: (LoginAct
 
     var emailText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
-    var emailError by remember { mutableStateOf(false) }
+
+    val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
 
     Scaffold(
         modifier = Modifier
-            .fillMaxSize(),
-        contentWindowInsets = WindowInsets.statusBars
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { focusManager.clearFocus() })
+            }, contentWindowInsets = WindowInsets.statusBars
     ) { innerPadding ->
         val rootModifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
             .clip(
                 RoundedCornerShape(
-                    topStart = 15.dp,
-                    topEnd = 15.dp
+                    topStart = 15.dp, topEnd = 15.dp
                 )
             )
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
             .padding(
-                horizontal = 16.dp,
-                vertical = 24.dp
+                horizontal = 16.dp, vertical = 24.dp
             )
             .consumeWindowInsets(WindowInsets.navigationBars)
 
         if (showDialog) {
             LoginErrorDialog(
-                message = "LoginFail",
-                onDismiss = {
+                message = "LoginFail", onDismiss = {
                     onAction(LoginAction.ResetLogin)
-                }
-            )
+                }, onAllow = {
+
+                })
         }
 
         val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
         when (DeviceConfiguration.fromWindowSizeClass(windowSizeClass)) {
             DeviceConfiguration.MOBILE_PORTRAIT -> {
                 Column(
-                    modifier = rootModifier,
-                    verticalArrangement = Arrangement.spacedBy(32.dp)
+                    modifier = rootModifier, verticalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
                     LoginHeaderSection(
                         modifier = Modifier.fillMaxWidth()
@@ -142,20 +143,16 @@ fun LoginScreen(loginState: LoginState, showDialog: Boolean, onAction: (LoginAct
                         onEmailTextChange = { emailText = it },
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
-                        onEmailCheck = {
-                            emailError = isValidEmail(emailText)
-                        },
-                        emailError = emailError,
                         onLogin = {
                             onAction(
                                 LoginAction.LoginKingBit(
-                                    username = emailText,
-                                    password = passwordText
+                                    username = emailText, password = passwordText
                                 )
                             )
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        focusRequester = focusRequester,
+                        focusManager = focusManager
                     )
                 }
             }
@@ -166,40 +163,33 @@ fun LoginScreen(loginState: LoginState, showDialog: Boolean, onAction: (LoginAct
                         .windowInsetsPadding(WindowInsets.displayCutout)
                         .padding(
                             horizontal = 32.dp
-                        ),
-                    horizontalArrangement = Arrangement.spacedBy(32.dp)
+                        ), horizontalArrangement = Arrangement.spacedBy(32.dp)
                 ) {
                     LoginHeaderSection(
-                        modifier = Modifier
-                            .weight(1f)
+                        modifier = Modifier.weight(1f)
                     )
                     LoginFormSection(
                         emailText = emailText,
                         onEmailTextChange = { emailText = it },
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
-                        onEmailCheck = {
-                            emailError = isValidEmail(emailText)
-                        },
-                        emailError = emailError,
                         onLogin = {
                             onAction(
                                 LoginAction.LoginKingBit(
-                                    username = emailText,
-                                    password = passwordText
+                                    username = emailText, password = passwordText
                                 )
                             )
                         },
                         modifier = Modifier
                             .weight(1f)
-                            .verticalScroll(rememberScrollState())
+                            .verticalScroll(rememberScrollState()),
+                        focusRequester = focusRequester,
+                        focusManager = focusManager
                     )
                 }
             }
 
-            DeviceConfiguration.TABLET_PORTRAIT,
-            DeviceConfiguration.TABLET_LANDSCAPE,
-            DeviceConfiguration.DESKTOP -> {
+            DeviceConfiguration.TABLET_PORTRAIT, DeviceConfiguration.TABLET_LANDSCAPE, DeviceConfiguration.DESKTOP -> {
                 Column(
                     modifier = rootModifier
                         .verticalScroll(rememberScrollState())
@@ -208,29 +198,24 @@ fun LoginScreen(loginState: LoginState, showDialog: Boolean, onAction: (LoginAct
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     LoginHeaderSection(
-                        modifier = Modifier
-                            .widthIn(max = 540.dp),
+                        modifier = Modifier.widthIn(max = 540.dp),
                         alignment = Alignment.CenterHorizontally
                     )
                     LoginFormSection(
                         emailText = emailText,
                         onEmailTextChange = { emailText = it },
                         passwordText = passwordText,
-                        onEmailCheck = {
-                            emailError = isValidEmail(emailText)
-                        },
-                        emailError = emailError,
                         onPasswordTextChange = { passwordText = it },
                         onLogin = {
                             onAction(
                                 LoginAction.LoginKingBit(
-                                    username = emailText,
-                                    password = passwordText
+                                    username = emailText, password = passwordText
                                 )
                             )
                         },
-                        modifier = Modifier
-                            .widthIn(max = 540.dp)
+                        modifier = Modifier.widthIn(max = 540.dp),
+                        focusRequester = focusRequester,
+                        focusManager = focusManager
                     )
                 }
             }
@@ -245,8 +230,7 @@ fun LoginHeaderSection(
 ) {
 
     Column(
-        modifier = modifier,
-        horizontalAlignment = alignment
+        modifier = modifier, horizontalAlignment = alignment
     ) {
         Text(
             text = "Welcome Back!",
@@ -262,8 +246,7 @@ fun LoginHeaderSection(
         Spacer(modifier = Modifier.size(10.dp))
         Box(modifier = modifier.fillMaxWidth()) {
             Image(
-                modifier = Modifier
-                    .align(Alignment.TopEnd),
+                modifier = Modifier.align(Alignment.TopEnd),
                 painter = painterResource(id = R.drawable.ic_login_image),
                 contentDescription = "Image Login"
             )
@@ -274,118 +257,116 @@ fun LoginHeaderSection(
 
 @Composable
 fun LoginFormSection(
+    modifier: Modifier = Modifier,
     emailText: String,
     onEmailTextChange: (String) -> Unit,
-    onEmailCheck: () -> Unit,
     passwordText: String,
     onPasswordTextChange: (String) -> Unit,
     onLogin: () -> Unit,
-    emailError : Boolean,
-    modifier: Modifier = Modifier
+    focusRequester: FocusRequester,
+    focusManager: FocusManager,
 ) {
+    var emailError by remember { mutableStateOf("") }
+    var passwordError by remember { mutableStateOf("") }
     Column(
         modifier = modifier
     ) {
         KingBitTextField(
             text = emailText,
-            onValueChange = onEmailTextChange,
+            onValueChange = {
+                onEmailTextChange(it)
+                emailError = ""
+            },
             onDone = {},
-            onCheckEmailValid = onEmailCheck,
             label = "Email or Phone Number",
             hint = "Enter your email",
             isInputSecret = false,
-            isError = emailError,
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             keyboardType = KeyboardType.Email,
-            drawable = R.drawable.ic_email
+            drawable = R.drawable.ic_email,
+            focusRequester = focusRequester,
+            focusManager = focusManager,
+            isError = emailError.isNotEmpty(),
+            errorMessage = emailError
+
         )
 
         Spacer(modifier = Modifier.height(16.dp))
         KingBitTextField(
             text = passwordText,
-            onValueChange = onPasswordTextChange,
-            onDone = onLogin,
-            onCheckEmailValid = {},
+            onValueChange = {
+                onPasswordTextChange(it)
+                passwordError = ""
+            },
+            onDone = {
+                focusManager.clearFocus()
+                emailError = when {
+                    emailText.isEmpty() -> "Please enter your email address."
+                    !validateEmail(emailText) -> "Enter a valid email address."
+                    else -> ""
+                }
+                passwordError = if (passwordText.isEmpty()) "Please enter your password." else ""
+                if (emailText.isNotEmpty() && passwordText.isNotEmpty() && validateEmail(emailText)) {
+                    onLogin()
+                }
+            },
             label = "Password",
             hint = "Enter your password",
             isInputSecret = true,
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Password,
-            drawable = R.drawable.ic_password
+            drawable = R.drawable.ic_password,
+            focusRequester = focusRequester,
+            focusManager = focusManager,
+            isError = passwordError.isNotEmpty(),
+            errorMessage = passwordError
         )
         Spacer(modifier = Modifier.height(24.dp))
         KingBitButton(
-            text = "Log In",
-            onClick = onLogin,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(), text = "Log In", onClick = {
+                focusManager.clearFocus()
+                emailError = when {
+                    emailText.isEmpty() -> "Please enter your email address."
+                    !validateEmail(emailText) -> "Enter a valid email address."
+                    else -> ""
+                }
+                passwordError = if (passwordText.isEmpty()) "Please enter your password." else ""
+
+                if (emailText.isNotEmpty() && passwordText.isNotEmpty() && validateEmail(emailText)) {
+                    onLogin()
+                }
+
+            }, enabled = emailText.isNotEmpty() && passwordText.isNotEmpty()
         )
         Spacer(modifier = Modifier.height(16.dp))
+
+        ConnectWithDivider()
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        ConnectWithApp()
+        Spacer(modifier = Modifier.height(16.dp))
+
         KingBitLink(
             text = "Don't have an account?",
             onClick = {},
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         )
     }
 }
 
 @Composable
 fun LoginErrorDialog(
-    message: String,
-    onDismiss: () -> Unit
+    message: String, onDismiss: () -> Unit, onAllow: () -> Unit
 ) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        shape = RoundedCornerShape(10.dp),
-        tonalElevation = 12.dp, // shadow
-        containerColor = MaterialTheme.colorScheme.surface,
-        titleContentColor = MaterialTheme.colorScheme.onSurface,
-        textContentColor = MaterialTheme.colorScheme.onSurface,
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Warning,
-                    contentDescription = "Login failed",
-                    tint = MaterialTheme.colorScheme.error
-                )
-                Text(
-                    text = "Login Failed",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-            }
-        },
-        text = {
-            Text(
-                text = message,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-        },
-        confirmButton = {
-            Button(
-                onClick = onDismiss,
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text("OK")
-            }
-        },
-        modifier = Modifier
-            .padding(horizontal = 24.dp)
-            .border(
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-                shape = RoundedCornerShape(16.dp)
-            )
-    )
+    Dialog(onDismissRequest = {
+
+    }) {
+        CustomDialogUI(onDismiss = onDismiss, onAllow = onAllow)
+    }
 }
 
-fun isValidEmail(email: String): Boolean {
+fun validateEmail(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }

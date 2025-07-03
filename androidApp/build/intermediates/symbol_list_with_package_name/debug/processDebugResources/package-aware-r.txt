@@ -664,6 +664,7 @@ drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
 drawable eye_open
 drawable eye_slash
+drawable ic_apple
 drawable ic_call_answer
 drawable ic_call_answer_low
 drawable ic_call_answer_video
@@ -671,9 +672,12 @@ drawable ic_call_answer_video_low
 drawable ic_call_decline
 drawable ic_call_decline_low
 drawable ic_email
+drawable ic_fb
+drawable ic_google
 drawable ic_launcher_background
 drawable ic_login_image
 drawable ic_password
+drawable image_sucess
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low

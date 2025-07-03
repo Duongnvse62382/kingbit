@@ -1,9 +1,6 @@
 package com.king.kingbit.login.presentation
 
-sealed class LoginUiState() {
-    data object Idle : LoginUiState()
-    data object Loading : LoginUiState()
-}
+data class LoginUIState(val emailBlank : Boolean = false, val passwordBlank : Boolean = false, val emailInValid : Boolean = false)
 
 sealed class LoginEvent {
     data object Idle: LoginEvent()

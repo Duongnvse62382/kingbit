@@ -24,6 +24,14 @@
         "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-xxxhdpi\\ic_launcher_foreground.webp"
     },
     {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_eye_open.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\eye_open.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_ic_fb.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\ic_fb.xml"
+    },
+    {
         "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-mdpi_ic_launcher_foreground.webp.flat",
         "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-mdpi\\ic_launcher_foreground.webp"
     },
@@ -32,12 +40,16 @@
         "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-hdpi\\ic_launcher.webp"
     },
     {
+        "merged": "com.king.kingbit.android.androidApp-debug-69:/drawable_image_sucess.xml.flat",
+        "source": "com.king.kingbit.android.androidApp-main-71:/drawable/image_sucess.xml"
+    },
+    {
         "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-hdpi_ic_launcher_foreground.webp.flat",
         "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-hdpi\\ic_launcher_foreground.webp"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-69:/drawable_eye_open.xml.flat",
-        "source": "com.king.kingbit.android.androidApp-main-71:/drawable/eye_open.xml"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_ic_apple.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\ic_apple.xml"
     },
     {
         "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
@@ -62,6 +74,10 @@
     {
         "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_ic_email.xml.flat",
         "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\ic_email.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_ic_google.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\ic_google.xml"
     },
     {
         "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-mdpi_ic_launcher_round.webp.flat",

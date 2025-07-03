@@ -21,12 +21,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,21 +40,21 @@ fun KingBitTextField(
     text: String,
     onValueChange: (String) -> Unit,
     onDone: () -> Unit,
-    onCheckEmailValid : () -> Unit,
     label: String,
     hint: String,
     isInputSecret: Boolean,
     imeAction: ImeAction = ImeAction.Next,
     keyboardType: KeyboardType,
     isError: Boolean = false,
-    drawable: Int
+    errorMessage : String = "",
+    drawable: Int,
+    focusRequester: FocusRequester,
+    focusManager: FocusManager,
 ) {
     var isPasswordVisible by remember {
         mutableStateOf(false)
     }
-    val focusManager = LocalFocusManager.current
-    val focusRequester = remember { FocusRequester() }
-    var isFocused by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
     ) {
@@ -71,13 +70,7 @@ fun KingBitTextField(
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .focusRequester(focusRequester)
-                .onFocusChanged {
-                    if (isFocused && !it.isFocused) {
-                        onCheckEmailValid()
-                    }
-                    isFocused = it.isFocused
-                },
+                .focusRequester(focusRequester),
             visualTransformation = if (isPasswordVisible || !isInputSecret) VisualTransformation.None else PasswordVisualTransformation(),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
@@ -98,11 +91,17 @@ fun KingBitTextField(
                     focusManager.moveFocus(FocusDirection.Down)
                 },
                 onDone = {
+                    focusManager.clearFocus()
                     onDone()
                 }
 
             ),
             isError = isError,
+            supportingText = {
+                if (isError) {
+                    Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+                }
+            },
             keyboardOptions = KeyboardOptions(imeAction = imeAction, keyboardType = keyboardType),
             textStyle = MaterialTheme.typography.bodyLarge,
             shape = RoundedCornerShape(10.dp),
@@ -138,7 +137,7 @@ fun KingBitTextField(
                     imageVector = ImageVector.vectorResource(drawable),
                     contentDescription = ""
                 )
-            }
+            },
         )
     }
 }
