@@ -39,7 +39,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -60,9 +59,10 @@ import com.king.kingbit.android.presentation.login.components.ConnectWithDivider
 import com.king.kingbit.android.presentation.login.components.CustomDialogUI
 import com.king.kingbit.android.util.DeviceConfiguration
 import com.king.kingbit.login.presentation.LoginAction
-import com.king.kingbit.login.presentation.LoginEvent
+import com.king.kingbit.login.presentation.AuthenticationEvent
 import com.king.kingbit.login.presentation.LoginState
 import com.king.kingbit.login.presentation.LoginViewModel
+import com.king.kingbit.login.presentation.RegisterEvent
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -70,21 +70,21 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = k
     var showDialog by remember { mutableStateOf(false) }
     val loginState by loginViewModel.loginState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
-        loginViewModel.event.collect { event ->
+        loginViewModel.eventAuth.collect { event ->
             when (event) {
-                is LoginEvent.ShowError -> {
+                is AuthenticationEvent.ShowError -> {
                     showDialog = true
                 }
 
-                is LoginEvent.Idle -> {
+                is AuthenticationEvent.Idle -> {
                     showDialog = false
                 }
 
-                is LoginEvent.NavigateHome -> {
+                is AuthenticationEvent.NavigateHome -> {
 
                 }
 
-                LoginEvent.NavigationRegister -> {
+                AuthenticationEvent.NavigationRegister -> {
                     navController.navigate(Route.Register)
                 }
             }

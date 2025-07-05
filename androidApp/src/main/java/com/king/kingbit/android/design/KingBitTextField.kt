@@ -48,6 +48,7 @@ fun KingBitTextField(
     isError: Boolean = false,
     errorMessage : String = "",
     drawable: Int,
+    enable : Boolean = true,
     focusRequester: FocusRequester,
     focusManager: FocusManager,
 ) {
@@ -60,7 +61,7 @@ fun KingBitTextField(
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.labelLarge
         )
         Spacer(modifier = Modifier.height(6.dp))
 
@@ -138,6 +139,7 @@ fun KingBitTextField(
                     contentDescription = ""
                 )
             },
+            enabled = enable
         )
     }
 }

@@ -15,8 +15,11 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
     private val _loginState = MutableStateFlow(LoginState())
     val loginState = _loginState.asStateFlow()
 
-    private val _event = MutableSharedFlow<LoginEvent>()
-    val event = _event.asSharedFlow()
+    private val _eventAuth = MutableSharedFlow<AuthenticationEvent>()
+    val eventAuth = _eventAuth.asSharedFlow()
+
+    private val _eventRegister = MutableSharedFlow<RegisterEvent>()
+    val eventRegister = _eventRegister.asSharedFlow()
 
     fun onAction(loginAction: LoginAction) {
         viewModelScope.launch {
@@ -30,11 +33,16 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
                 }
 
                 is LoginAction.ResetLogin -> {
-                    _event.emit(LoginEvent.Idle)
+                    _eventAuth.emit(AuthenticationEvent.Idle)
+                    _eventRegister.emit(RegisterEvent.Idle)
                 }
 
                 LoginAction.GoRegister -> {
-                    _event.emit(LoginEvent.NavigationRegister)
+                    _eventAuth.emit(AuthenticationEvent.NavigationRegister)
+                }
+
+                is LoginAction.CheckEmailExited -> {
+                    checkUserExit(loginAction.username)
                 }
             }
         }
@@ -44,18 +52,27 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
         delay(1000)
         val result = repository.login(username, password)
         if (result) {
-            _event.emit(LoginEvent.NavigateHome)
+            _eventAuth.emit(AuthenticationEvent.NavigateHome)
         } else {
-            _event.emit(LoginEvent.ShowError("Login Fail"))
+            _eventAuth.emit(AuthenticationEvent.ShowError("Login Fail"))
         }
     }
 
     private suspend fun register(username: String, password: String) {
         val result = repository.register(username, password)
         if (result) {
-            _event.emit(LoginEvent.NavigateHome)
+            _eventAuth.emit(AuthenticationEvent.NavigateHome)
         } else {
-            _event.emit(LoginEvent.ShowError("register Fail"))
+            _eventAuth.emit(AuthenticationEvent.ShowError("register Fail"))
+        }
+    }
+
+    private suspend fun checkUserExit(username: String) {
+        val result = repository.isUserExists(username)
+        if(result) {
+            _eventRegister.emit(RegisterEvent.ShowError("User has exit"))
+        } else {
+            _eventRegister.emit(RegisterEvent.NextPasswordStep)
         }
     }
 }

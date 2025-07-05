@@ -15,4 +15,8 @@ class DefaultUserRepository (private val dao: UserDao) : UserRepository {
     override suspend fun login(username: String, password: String): Boolean {
         return dao.getUserByUsername(username)?.password == password
     }
+
+    override suspend fun isUserExists(username: String): Boolean {
+        return dao.isUserExists(username)
+    }
 }
