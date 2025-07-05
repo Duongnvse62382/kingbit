@@ -1,74 +1,126 @@
 [
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/drawable/ic_launcher_background.xml"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_ic_password.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\ic_password.xml"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-mdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-anydpi-v26_ic_kingbit.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-anydpi-v26\\ic_kingbit.xml"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-hdpi_ic_kingbit.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-hdpi\\ic_kingbit.webp"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_ic_kingbit_background.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\ic_kingbit_background.xml"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-xhdpi_ic_kingbit_foreground.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-xhdpi\\ic_kingbit_foreground.webp"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-xxxhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-xxxhdpi_ic_kingbit.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-xxxhdpi\\ic_kingbit.webp"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-xhdpi_ic_kingbit_round.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-xhdpi\\ic_kingbit_round.webp"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_eye_slash.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\eye_slash.xml"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-xhdpi/ic_launcher_foreground.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_logo_kingbit_dark.png.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\logo_kingbit_dark.png"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-xxhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_eye_open.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\eye_open.xml"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-mdpi/ic_launcher_foreground.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-xxxhdpi_ic_kingbit_foreground.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-xxxhdpi\\ic_kingbit_foreground.webp"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-xhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_logo_king_bit_big_size_dark.png.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\logo_king_bit_big_size_dark.png"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_ic_fb.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\ic_fb.xml"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-hdpi/ic_launcher_foreground.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_logo_kingbit.png.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\logo_kingbit.png"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-hdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-xxxhdpi_ic_kingbit_round.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-xxxhdpi\\ic_kingbit_round.webp"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-hdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-xxhdpi_ic_kingbit.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-xxhdpi\\ic_kingbit.webp"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-xxhdpi_ic_kingbit_round.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-xxhdpi\\ic_kingbit_round.webp"
     },
     {
-        "merged": "com.king.kingbit.android.androidApp-debug-53:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.king.kingbit.android.androidApp-main-55:/mipmap-xxhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_ic_apple.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\ic_apple.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_image_sucess.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\image_sucess.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_logo_king_bit_big_size.png.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\logo_king_bit_big_size.png"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-xhdpi_ic_kingbit.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-xhdpi\\ic_kingbit.webp"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-hdpi_ic_kingbit_foreground.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-hdpi\\ic_kingbit_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_ic_email.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\ic_email.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\drawable_ic_google.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\drawable\\ic_google.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-mdpi_ic_kingbit_foreground.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-mdpi\\ic_kingbit_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-xxhdpi_ic_kingbit_foreground.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-xxhdpi\\ic_kingbit_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-mdpi_ic_kingbit_round.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-mdpi\\ic_kingbit_round.webp"
+    },
+    {
+        "merged": "com.king.kingbit.android.androidApp-debug-69:/drawable_logo_kingbit_dark.png.flat",
+        "source": "com.king.kingbit.android.androidApp-main-71:/drawable/logo_kingbit_dark.png"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-anydpi-v26_ic_kingbit_round.xml.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-anydpi-v26\\ic_kingbit_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-mdpi_ic_kingbit.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-mdpi\\ic_kingbit.webp"
+    },
+    {
+        "merged": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-debug-69:\\mipmap-hdpi_ic_kingbit_round.webp.flat",
+        "source": "C:\\Users\\pc\\.gradle\\daemon\\8.11.1\\com.king.kingbit.android.androidApp-main-71:\\mipmap-hdpi\\ic_kingbit_round.webp"
     }
 ]

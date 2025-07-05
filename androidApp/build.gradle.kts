@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -42,5 +43,13 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.adaptive.android)
     debugImplementation(libs.compose.ui.tooling)
+
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.jetbrains.compose.navigation)
+    implementation(libs.google.accompanis)
 }

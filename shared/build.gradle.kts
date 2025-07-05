@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.icerock)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -28,23 +31,41 @@ kotlin {
         }
     }
 
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.compose.material3)
         }
         commonMain.dependencies {
-            implementation(libs.koin.core)
             implementation(libs.moko.resources)
-            implementation(libs.ktor.client.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.compose.material3)
+
+            implementation(libs.bundles.coil)
+            implementation(libs.bundles.ktor)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            api(libs.koin.core)
+            implementation(libs.jetbrains.compose.navigation)
+            implementation(libs.sqlite.bundled)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.ktor.client.darwin)
+        }
+        dependencies {
+            ksp(libs.androidx.room.compiler)
         }
     }
 }

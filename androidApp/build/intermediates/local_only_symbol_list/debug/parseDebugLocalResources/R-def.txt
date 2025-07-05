@@ -1,8 +1,20 @@
 R_DEF: Internal format may change without notice
 local
-drawable ic_launcher_background
-mipmap ic_launcher
-mipmap ic_launcher_foreground
-mipmap ic_launcher_round
+drawable eye_open
+drawable eye_slash
+drawable ic_apple
+drawable ic_email
+drawable ic_fb
+drawable ic_google
+drawable ic_kingbit_background
+drawable ic_password
+drawable image_sucess
+drawable logo_king_bit_big_size
+drawable logo_king_bit_big_size_dark
+drawable logo_kingbit
+drawable logo_kingbit_dark
+mipmap ic_kingbit
+mipmap ic_kingbit_foreground
+mipmap ic_kingbit_round
 string app_name
 style AppTheme

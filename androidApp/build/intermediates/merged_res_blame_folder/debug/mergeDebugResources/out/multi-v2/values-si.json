@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.king.kingbit.android.androidApp-mergeDebugResources-51:/values-si/values-si.xml",
+            "outputFile": "com.king.kingbit.android.androidApp-mergeDebugResources-67:/values-si/values-si.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\9bf4202f35d15c9e7ae61e521295c24c\\transformed\\appcompat-1.6.1\\res\\values-si\\values-si.xml",
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\18339069147207fe58e809883fe3a8f2\\transformed\\appcompat-1.7.0\\res\\values-si\\values-si.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\0361025bb693d8f9282077d46a17ae27\\transformed\\foundation-release\\res\\values-si\\values-si.xml",
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\adcd1cb7d462db87f262b01422a284f7\\transformed\\foundation-release\\res\\values-si\\values-si.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",
@@ -38,24 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\7c0710c6f0da51aa1328bcaba5d92f02\\transformed\\ui-release\\res\\values-si\\values-si.xml",
-                    "from": {
-                        "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "185,274,357,456,555,637,722,813,899,979,1058,1140,1213,1297,1372,1456,1537,1618,1685",
-                        "endColumns": "88,82,98,98,81,84,90,85,79,78,81,72,83,74,83,80,80,66,117",
-                        "endOffsets": "269,352,451,550,632,717,808,894,974,1053,1135,1208,1292,1367,1451,1532,1613,1680,1798"
-                    },
-                    "to": {
-                        "startLines": "37,38,39,40,41,42,43,101,102,103,104,106,107,108,109,110,112,113,114",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "3632,3721,3804,3903,4002,4084,4169,10421,10507,10587,10666,10830,10903,10987,11062,11146,11328,11409,11476",
-                        "endColumns": "88,82,98,98,81,84,90,85,79,78,81,72,83,74,83,80,80,66,117",
-                        "endOffsets": "3716,3799,3898,3997,4079,4164,4255,10502,10582,10661,10743,10898,10982,11057,11141,11222,11404,11471,11589"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\0c2a6eef7b6b9b98715675ed3d3adf55\\transformed\\core-1.13.1\\res\\values-si\\values-si.xml",
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\5d4eace58a37d7d60190cdb8a0ba6102\\transformed\\core-1.13.1\\res\\values-si\\values-si.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -72,7 +55,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\2833fa203d618af57f68f7263fe8a39e\\transformed\\material3-release\\res\\values-si\\values-si.xml",
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\3ae7fe9a59b286e6b8d3fe3c3482587f\\transformed\\ui-release\\res\\values-si\\values-si.xml",
+                    "from": {
+                        "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "185,274,357,456,555,637,722,813,899,979,1058,1140,1213,1297,1372,1456,1537,1618,1685",
+                        "endColumns": "88,82,98,98,81,84,90,85,79,78,81,72,83,74,83,80,80,66,117",
+                        "endOffsets": "269,352,451,550,632,717,808,894,974,1053,1135,1208,1292,1367,1451,1532,1613,1680,1798"
+                    },
+                    "to": {
+                        "startLines": "37,38,39,40,41,42,43,101,102,103,104,106,107,108,109,110,112,113,114",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "3632,3721,3804,3903,4002,4084,4169,10421,10507,10587,10666,10830,10903,10987,11062,11146,11328,11409,11476",
+                        "endColumns": "88,82,98,98,81,84,90,85,79,78,81,72,83,74,83,80,80,66,117",
+                        "endOffsets": "3716,3799,3898,3997,4079,4164,4255,10502,10582,10661,10743,10898,10982,11057,11141,11222,11404,11471,11589"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\af3fa5518df6843a1b54eb13daf5cdad\\transformed\\material3-release\\res\\values-si\\values-si.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
