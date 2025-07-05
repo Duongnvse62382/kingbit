@@ -4,7 +4,7 @@
             "outputFile": "com.king.kingbit.android.androidApp-mergeDebugResources-67:/values-v30/values-v30.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\eec62859a0097d5404081a5cd6743d59\\transformed\\material3-release\\res\\values-v30\\values-v30.xml",
+                    "source": "C:\\Users\\pc\\.gradle\\caches\\8.11.1\\transforms\\af3fa5518df6843a1b54eb13daf5cdad\\transformed\\material3-release\\res\\values-v30\\values-v30.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

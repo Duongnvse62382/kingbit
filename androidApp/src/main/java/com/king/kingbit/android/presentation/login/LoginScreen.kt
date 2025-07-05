@@ -3,6 +3,7 @@ package com.king.kingbit.android.presentation.login
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,7 +49,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.king.kingbit.android.R
+import com.king.kingbit.util.Route
 import com.king.kingbit.android.design.KingBitButton
 import com.king.kingbit.android.design.KingBitLink
 import com.king.kingbit.android.design.KingBitTextField
@@ -63,7 +66,7 @@ import com.king.kingbit.login.presentation.LoginViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
+fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = koinViewModel()) {
     var showDialog by remember { mutableStateOf(false) }
     val loginState by loginViewModel.loginState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
@@ -81,6 +84,9 @@ fun LoginScreen(loginViewModel: LoginViewModel = koinViewModel()) {
 
                 }
 
+                LoginEvent.NavigationRegister -> {
+                    navController.navigate(Route.Register)
+                }
             }
         }
     }
@@ -114,7 +120,7 @@ fun LoginScreen(loginState: LoginState, showDialog: Boolean, onAction: (LoginAct
                     topStart = 15.dp, topEnd = 15.dp
                 )
             )
-            .background(MaterialTheme.colorScheme.surfaceContainerLowest)
+            .background(MaterialTheme.colorScheme.background)
             .padding(
                 horizontal = 16.dp, vertical = 24.dp
             )
@@ -150,6 +156,9 @@ fun LoginScreen(loginState: LoginState, showDialog: Boolean, onAction: (LoginAct
                                 )
                             )
                         },
+                        onNavigationRegister = {
+                            onAction(LoginAction.GoRegister)
+                        },
                         modifier = Modifier.fillMaxWidth(),
                         focusRequester = focusRequester,
                         focusManager = focusManager
@@ -179,6 +188,9 @@ fun LoginScreen(loginState: LoginState, showDialog: Boolean, onAction: (LoginAct
                                     username = emailText, password = passwordText
                                 )
                             )
+                        },
+                        onNavigationRegister = {
+                            onAction(LoginAction.GoRegister)
                         },
                         modifier = Modifier
                             .weight(1f)
@@ -213,6 +225,9 @@ fun LoginScreen(loginState: LoginState, showDialog: Boolean, onAction: (LoginAct
                                 )
                             )
                         },
+                        onNavigationRegister = {
+                            onAction(LoginAction.GoRegister)
+                        },
                         modifier = Modifier.widthIn(max = 540.dp),
                         focusRequester = focusRequester,
                         focusManager = focusManager
@@ -235,19 +250,19 @@ fun LoginHeaderSection(
         Text(
             text = "Welcome Back!",
             fontWeight = FontWeight.SemiBold,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge,
         )
         Spacer(modifier = Modifier.size(5.dp))
         Text(
             text = "Let’s login for explore continues",
             style = MaterialTheme.typography.titleMedium,
-            color = Color.Gray
         )
         Spacer(modifier = Modifier.size(10.dp))
         Box(modifier = modifier.fillMaxWidth()) {
+
             Image(
-                modifier = Modifier.align(Alignment.TopEnd),
-                painter = painterResource(id = R.drawable.ic_login_image),
+                modifier = Modifier.align(Alignment.Center),
+                painter = painterResource(id = if(isSystemInDarkTheme()) R.drawable.logo_kingbit_dark else R.drawable.logo_kingbit),
                 contentDescription = "Image Login"
             )
         }
@@ -263,6 +278,7 @@ fun LoginFormSection(
     passwordText: String,
     onPasswordTextChange: (String) -> Unit,
     onLogin: () -> Unit,
+    onNavigationRegister: () -> Unit,
     focusRequester: FocusRequester,
     focusManager: FocusManager,
 ) {
@@ -278,7 +294,7 @@ fun LoginFormSection(
                 emailError = ""
             },
             onDone = {},
-            label = "Email or Phone Number",
+            label = "Email",
             hint = "Enter your email",
             isInputSecret = false,
             modifier = Modifier.fillMaxWidth(),
@@ -350,7 +366,9 @@ fun LoginFormSection(
 
         KingBitLink(
             text = "Don't have an account?",
-            onClick = {},
+            onClick = {
+               onNavigationRegister()
+            },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
     }

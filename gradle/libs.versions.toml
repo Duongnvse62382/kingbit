@@ -18,6 +18,8 @@ coil3 = "3.0.0-rc02"
 navigationCompose = "2.8.0-alpha10"
 adaptiveAndroid = "1.1.0"
 
+systemuicontroller = "0.36.0"
+
 
 
 [libraries]
@@ -65,6 +67,10 @@ coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 
 jetbrains-compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref= "navigationCompose"}
 androidx-adaptive-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-android", version.ref = "adaptiveAndroid" }
+
+google-accompanis = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "systemuicontroller" }
+
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

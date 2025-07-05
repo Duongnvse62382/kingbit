@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: UserRepository) : ViewModel() {
@@ -32,6 +31,10 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
                 is LoginAction.ResetLogin -> {
                     _event.emit(LoginEvent.Idle)
+                }
+
+                LoginAction.GoRegister -> {
+                    _event.emit(LoginEvent.NavigationRegister)
                 }
             }
         }
