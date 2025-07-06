@@ -26,12 +26,14 @@ fun MyApplicationTheme(
         darkColorScheme(
             primary = Primary,
             background = BackgroundDark,
+            onBackground = OnBackgroundDark,
             surface = SurfaceDark
         )
     } else {
         lightColorScheme(
             primary = Primary,
             background = Background,
+            onBackground = OnBackground,
             surface = Surface
         )
     }

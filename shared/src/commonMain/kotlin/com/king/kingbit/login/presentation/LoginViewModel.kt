@@ -15,8 +15,11 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
     private val _loginState = MutableStateFlow(LoginState())
     val loginState = _loginState.asStateFlow()
 
-    private val _event = MutableSharedFlow<LoginEvent>()
-    val event = _event.asSharedFlow()
+    private val _eventAuth = MutableSharedFlow<AuthenticationEvent>()
+    val eventAuth = _eventAuth.asSharedFlow()
+
+    private val _eventRegister = MutableSharedFlow<RegisterEvent>()
+    val eventRegister = _eventRegister.asSharedFlow()
 
     fun onAction(loginAction: LoginAction) {
         viewModelScope.launch {
@@ -30,32 +33,46 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
                 }
 
                 is LoginAction.ResetLogin -> {
-                    _event.emit(LoginEvent.Idle)
+                    _eventAuth.emit(AuthenticationEvent.Idle)
+                    _eventRegister.emit(RegisterEvent.Idle)
                 }
 
                 LoginAction.GoRegister -> {
-                    _event.emit(LoginEvent.NavigationRegister)
+                    _eventAuth.emit(AuthenticationEvent.NavigationRegister)
+                }
+
+                is LoginAction.CheckEmailExited -> {
+                    checkUserExit(loginAction.username)
                 }
             }
         }
     }
 
     private suspend fun login(username: String, password: String) {
-        delay(1000)
+        delay(500)
         val result = repository.login(username, password)
         if (result) {
-            _event.emit(LoginEvent.NavigateHome)
+            _eventAuth.emit(AuthenticationEvent.NavigateHome)
         } else {
-            _event.emit(LoginEvent.ShowError("Login Fail"))
+            _eventAuth.emit(AuthenticationEvent.ShowError("The email or password you entered is incorrect. Please try again."))
         }
     }
 
     private suspend fun register(username: String, password: String) {
         val result = repository.register(username, password)
         if (result) {
-            _event.emit(LoginEvent.NavigateHome)
+            _eventRegister.emit(RegisterEvent.RegisterStatus(result))
         } else {
-            _event.emit(LoginEvent.ShowError("register Fail"))
+            _eventRegister.emit(RegisterEvent.RegisterStatus(result))
+        }
+    }
+
+    private suspend fun checkUserExit(username: String) {
+        val result = repository.isUserExists(username)
+        if(result) {
+            _eventRegister.emit(RegisterEvent.ShowError("An account with this email already exists. Please log in or use a different email."))
+        } else {
+            _eventRegister.emit(RegisterEvent.NextPasswordStep)
         }
     }
 }
