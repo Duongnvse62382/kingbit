@@ -47,7 +47,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.king.kingbit.android.R
 import com.king.kingbit.util.Route
@@ -60,28 +59,31 @@ import com.king.kingbit.android.presentation.login.components.CustomDialogUI
 import com.king.kingbit.android.util.DeviceConfiguration
 import com.king.kingbit.login.presentation.LoginAction
 import com.king.kingbit.login.presentation.AuthenticationEvent
-import com.king.kingbit.login.presentation.LoginState
 import com.king.kingbit.login.presentation.LoginViewModel
-import com.king.kingbit.login.presentation.RegisterEvent
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = koinViewModel()) {
+
     var showDialog by remember { mutableStateOf(false) }
-    val loginState by loginViewModel.loginState.collectAsStateWithLifecycle()
+    var loginErrorMessage by remember { mutableStateOf("") }
+
     LaunchedEffect(Unit) {
         loginViewModel.eventAuth.collect { event ->
             when (event) {
                 is AuthenticationEvent.ShowError -> {
                     showDialog = true
+                    loginErrorMessage = event.message
                 }
 
                 is AuthenticationEvent.Idle -> {
                     showDialog = false
+                    loginErrorMessage = ""
                 }
 
                 is AuthenticationEvent.NavigateHome -> {
-
+                    navController.popBackStack()
+                    navController.navigate(Route.Home)
                 }
 
                 AuthenticationEvent.NavigationRegister -> {
@@ -91,13 +93,13 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = k
         }
     }
     LoginScreen(
-        loginState = loginState, showDialog = showDialog, onAction = loginViewModel::onAction
+        showDialog = showDialog, loginErrorMessage = loginErrorMessage, onAction = loginViewModel::onAction
     )
 }
 
 
 @Composable
-fun LoginScreen(loginState: LoginState, showDialog: Boolean, onAction: (LoginAction) -> Unit) {
+fun LoginScreen(showDialog: Boolean, loginErrorMessage : String, onAction: (LoginAction) -> Unit) {
 
     var emailText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
@@ -127,12 +129,11 @@ fun LoginScreen(loginState: LoginState, showDialog: Boolean, onAction: (LoginAct
             .consumeWindowInsets(WindowInsets.navigationBars)
 
         if (showDialog) {
-            LoginErrorDialog(
-                message = "LoginFail", onDismiss = {
-                    onAction(LoginAction.ResetLogin)
-                }, onAllow = {
+            KingBitDialog(title = "Incorrect Credentials", message = loginErrorMessage, drawableIcon = R.drawable.logo_kingbit, onDismiss = {
+                onAction(LoginAction.ResetLogin)
+            }, onAllow = {
 
-                })
+            })
         }
 
         val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
@@ -262,7 +263,7 @@ fun LoginHeaderSection(
 
             Image(
                 modifier = Modifier.align(Alignment.Center),
-                painter = painterResource(id = if(isSystemInDarkTheme()) R.drawable.logo_kingbit_dark else R.drawable.logo_kingbit),
+                painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.logo_kingbit_dark else R.drawable.logo_kingbit),
                 contentDescription = "Image Login"
             )
         }
@@ -365,23 +366,27 @@ fun LoginFormSection(
         Spacer(modifier = Modifier.height(16.dp))
 
         KingBitLink(
-            text = "Don't have an account?",
-            onClick = {
-               onNavigationRegister()
-            },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            text = "Don't have an account?", onClick = {
+                onNavigationRegister()
+            }, modifier = Modifier.align(Alignment.CenterHorizontally)
         )
     }
 }
 
 @Composable
-fun LoginErrorDialog(
-    message: String, onDismiss: () -> Unit, onAllow: () -> Unit
+fun KingBitDialog(
+    title: String, message: String, drawableIcon: Int, onDismiss: () -> Unit, onAllow: () -> Unit
 ) {
     Dialog(onDismissRequest = {
 
     }) {
-        CustomDialogUI(onDismiss = onDismiss, onAllow = onAllow)
+        CustomDialogUI(
+            title = title,
+            message = message,
+            drawableIcon = drawableIcon,
+            onDismiss = onDismiss,
+            onAllow = onAllow
+        )
     }
 }
 

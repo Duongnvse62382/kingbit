@@ -26,29 +26,33 @@ import com.king.kingbit.android.R
 
 
 @Composable
-fun CustomDialogUI(modifier: Modifier = Modifier, onDismiss :() -> Unit, onAllow : () -> Unit){
+fun CustomDialogUI(
+    modifier: Modifier = Modifier,
+    title: String,
+    message: String,
+    drawableIcon: Int,
+    onDismiss: () -> Unit,
+    onAllow: () -> Unit
+) {
     Card(
         shape = RoundedCornerShape(10.dp),
-        modifier = Modifier.padding(10.dp,5.dp,10.dp,10.dp),
+        modifier = Modifier.padding(10.dp, 5.dp, 10.dp, 10.dp),
         elevation = CardDefaults.cardElevation()
     ) {
-        Column(
-            modifier
-                .background(Color.White)) {
+        Column(modifier = modifier) {
 
             Image(
-                painter = painterResource(id = R.drawable.image_sucess),
+                painter = painterResource(id = drawableIcon),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .padding(top = 35.dp)
                     .fillMaxWidth(),
-
-                )
+            )
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Login Failed",
+                    text = title,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(top = 5.dp)
@@ -57,8 +61,8 @@ fun CustomDialogUI(modifier: Modifier = Modifier, onDismiss :() -> Unit, onAllow
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
-               Text(
-                    text = "Please verify your email address before logging in",
+                Text(
+                    text = message,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(top = 10.dp, start = 25.dp, end = 25.dp)
@@ -71,7 +75,8 @@ fun CustomDialogUI(modifier: Modifier = Modifier, onDismiss :() -> Unit, onAllow
                     .fillMaxWidth()
                     .padding(top = 10.dp)
                     .background(Color.Gray),
-                horizontalArrangement = Arrangement.SpaceAround) {
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
 
                 TextButton(onClick = {
                     onDismiss()

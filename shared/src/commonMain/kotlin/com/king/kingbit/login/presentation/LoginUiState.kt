@@ -11,4 +11,5 @@ sealed class RegisterEvent {
     data object Idle: RegisterEvent()
     data class ShowError(val message: String): RegisterEvent()
     data object NextPasswordStep: RegisterEvent()
+    data class RegisterStatus(val isRegisterSuccess : Boolean) : RegisterEvent()
 }

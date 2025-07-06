@@ -49,28 +49,28 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
     }
 
     private suspend fun login(username: String, password: String) {
-        delay(1000)
+        delay(500)
         val result = repository.login(username, password)
         if (result) {
             _eventAuth.emit(AuthenticationEvent.NavigateHome)
         } else {
-            _eventAuth.emit(AuthenticationEvent.ShowError("Login Fail"))
+            _eventAuth.emit(AuthenticationEvent.ShowError("The email or password you entered is incorrect. Please try again."))
         }
     }
 
     private suspend fun register(username: String, password: String) {
         val result = repository.register(username, password)
         if (result) {
-            _eventAuth.emit(AuthenticationEvent.NavigateHome)
+            _eventRegister.emit(RegisterEvent.RegisterStatus(result))
         } else {
-            _eventAuth.emit(AuthenticationEvent.ShowError("register Fail"))
+            _eventRegister.emit(RegisterEvent.RegisterStatus(result))
         }
     }
 
     private suspend fun checkUserExit(username: String) {
         val result = repository.isUserExists(username)
         if(result) {
-            _eventRegister.emit(RegisterEvent.ShowError("User has exit"))
+            _eventRegister.emit(RegisterEvent.ShowError("An account with this email already exists. Please log in or use a different email."))
         } else {
             _eventRegister.emit(RegisterEvent.NextPasswordStep)
         }

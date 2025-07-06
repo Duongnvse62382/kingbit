@@ -55,14 +55,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.king.kingbit.android.R
 import com.king.kingbit.android.design.KingBitTextField
 import com.king.kingbit.login.domain.model.RegisterStep
 import com.king.kingbit.login.domain.model.checkPassword
 import com.king.kingbit.login.presentation.LoginAction
-import com.king.kingbit.login.presentation.AuthenticationEvent
 import com.king.kingbit.login.presentation.LoginViewModel
 import com.king.kingbit.login.presentation.RegisterEvent
 import org.koin.androidx.compose.koinViewModel
@@ -70,16 +68,17 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun RegisterScreen(navController: NavController, loginViewModel: LoginViewModel = koinViewModel()) {
     var showDialog by remember { mutableStateOf(false) }
-    val loginState by loginViewModel.loginState.collectAsStateWithLifecycle()
-
     var registerStep by remember { mutableStateOf(RegisterStep.EMAIL) }
     var errorMessage by remember { mutableStateOf("") }
+    var isRegistered by remember { mutableStateOf(false) }
+
 
     LaunchedEffect(Unit) {
         loginViewModel.eventRegister.collect { event ->
             when (event) {
                 RegisterEvent.Idle -> {
                     errorMessage = ""
+                    showDialog = false
                 }
 
                 RegisterEvent.NextPasswordStep -> {
@@ -89,15 +88,27 @@ fun RegisterScreen(navController: NavController, loginViewModel: LoginViewModel 
                 is RegisterEvent.ShowError -> {
                     errorMessage = event.message
                 }
+
+                is RegisterEvent.RegisterStatus -> {
+                    showDialog = true
+                    isRegistered = event.isRegisterSuccess
+                }
             }
         }
     }
 
-    RegisterScreen(errorMessage = errorMessage, registerStep = registerStep, onAction = loginViewModel::onAction, onBack = {
-        navController.popBackStack()
-    }, onRegisterStep = {
-        registerStep = it
-    })
+    RegisterScreen(
+        errorMessage = errorMessage,
+        registerStep = registerStep,
+        showDialog = showDialog,
+        isRegistered = isRegistered,
+        onAction = loginViewModel::onAction,
+        onBack = {
+            navController.popBackStack()
+        },
+        onRegisterStep = {
+            registerStep = it
+        })
 }
 
 @Composable
@@ -105,6 +116,8 @@ fun RegisterScreen(
     modifier: Modifier = Modifier,
     errorMessage: String,
     registerStep: RegisterStep,
+    showDialog: Boolean,
+    isRegistered: Boolean,
     onAction: (LoginAction) -> Unit,
     onBack: () -> Unit,
     onRegisterStep: (RegisterStep) -> Unit
@@ -138,6 +151,19 @@ fun RegisterScreen(
             )
             .consumeWindowInsets(WindowInsets.navigationBars)
 
+        if (showDialog) {
+            KingBitDialog(
+                title = if (isRegistered) "Registration Successful" else "Registration Failed",
+                message = if (isRegistered) "Your account has been created successfully. You can now log in and start using the app." else "Something went wrong during registration. Please try again later.",
+                onDismiss = {
+                    onAction(LoginAction.ResetLogin)
+                    if (isRegistered) {
+                        onBack()
+                    }
+                },
+                drawableIcon = if(isRegistered) R.drawable.image_sucess else R.drawable.logo_kingbit,
+                onAllow = {})
+        }
 
         Column(
             modifier = rootModifier, verticalArrangement = Arrangement.spacedBy(32.dp)
@@ -321,6 +347,7 @@ fun RegisterEmailSection(
             Button(
                 onClick = {
                     if (emailText.isNotEmpty() && validateEmail(emailText)) {
+                        onAction(LoginAction.ResetLogin)
                         onNext()
                     }
                 },
