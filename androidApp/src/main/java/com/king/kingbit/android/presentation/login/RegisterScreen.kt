@@ -24,10 +24,10 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -335,7 +335,7 @@ fun RegisterEmailSection(
                 ), border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
             ) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = MaterialTheme.colorScheme.primary
                 )
@@ -370,7 +370,7 @@ fun RegisterEmailSection(
 
                     Icon(
                         modifier = Modifier.align(Alignment.BottomEnd),
-                        imageVector = Icons.Default.ArrowForward,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "Next",
                         tint = if (emailText.isNotEmpty() && validateEmail(emailText)) Color.White else Color.Gray
                     )
@@ -479,7 +479,7 @@ fun RegisterPasswordSection(
                 ), border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
             ) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = MaterialTheme.colorScheme.primary
                 )
@@ -517,7 +517,7 @@ fun RegisterPasswordSection(
 
 @Composable
 fun ValidationItem(text: String, isValid: Boolean) {
-    val icon = if (isValid) Icons.Default.CheckCircle else Icons.Default.Warning
+    val icon = if (isValid) Icons.Default.CheckCircle else Icons.Default.Close
     val iconColor = if (isValid) Color(0xFF4CAF50) else Color(0xFFF44336)
 
     Row(verticalAlignment = Alignment.CenterVertically) {

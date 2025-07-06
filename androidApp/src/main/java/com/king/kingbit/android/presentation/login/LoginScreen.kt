@@ -47,6 +47,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.king.kingbit.android.R
 import com.king.kingbit.util.Route
@@ -64,7 +65,6 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = koinViewModel()) {
-
     var showDialog by remember { mutableStateOf(false) }
     var loginErrorMessage by remember { mutableStateOf("") }
 

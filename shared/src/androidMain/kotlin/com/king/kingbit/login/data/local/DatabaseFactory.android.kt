@@ -9,8 +9,9 @@ actual class DatabaseFactory( private val context: Context) {
         val appContext = context.applicationContext
         val dbFile = appContext.getDatabasePath(AppDatabase.DB_NAME)
         return Room.databaseBuilder(
-            context = appContext,
-            name = dbFile.absolutePath
-        )
+                    context = appContext,
+                    name = dbFile.absolutePath,
+                    klass = AppDatabase::class.java
+                ).fallbackToDestructiveMigration(false)
     }
 }
