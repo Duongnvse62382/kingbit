@@ -29,11 +29,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
@@ -52,4 +52,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.jetbrains.compose.navigation)
     implementation(libs.google.accompanis)
+    implementation(libs.google.credentials)
+//    implementation(libs.google.googleid)
+//    implementation(libs.play.services)
+
 }
