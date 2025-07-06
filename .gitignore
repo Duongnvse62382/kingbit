@@ -1,9 +1,61 @@
-.gradle/
-.idea/
-*.iml
-local.properties
-/build/
+# Built application files
 *.apk
-*.jks
-.DS_Store
-Thumbs.db
+*.ap_
+*.aab
+*.aar
+
+# Files for the ART/JVM
+*.dex
+
+# Java class files
+*.class
+*.jar
+*.war
+*.ear
+
+# Kotlin class files and caches
+*.kapt_generated
+.kotlin/
+.gradle/
+build/
+*/build/
+.idea/
+.idea_modules/
+.navigation/
+
+# Local configuration file (sdk, ndk, etc)
+local.properties
+.DS_Store # macOS specific
+Thumbs.db # Windows specific
+
+# Intellij IDEA files
+*.iml
+.idea/workspace.xml
+.idea/libraries/
+.idea/modules.xml
+.idea/runConfigurations/
+.idea/task.xml
+.idea/shelf/
+
+# Android Studio and Gradle files
+.gradle/
+captures/
+.externalNativeBuild/
+.cxx/
+generated/
+# For KMM projects (like yours)
+iosApp/build/
+shared/build/
+.out/
+.checksums/
+*.ipr
+*.iws
+
+# VS Code files
+.vscode/
+
+# Any custom files you want to ignore
+# For example, if you see specific .class files appearing
+# you can add more specific paths like:
+# shared/build/tmp/kotlin-classes/debug/com/king/kingbit/util/Route$Splash.class
+# but generally, 'build/' and '*/build/' should cover it.
