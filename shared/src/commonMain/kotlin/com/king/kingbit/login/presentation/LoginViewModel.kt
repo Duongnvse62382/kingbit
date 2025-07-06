@@ -2,18 +2,36 @@ package com.king.kingbit.login.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.king.kingbit.login.domain.model.User
 import com.king.kingbit.login.domain.usecase.UserRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
-    private val _loginState = MutableStateFlow(LoginState())
-    val loginState = _loginState.asStateFlow()
+    private val _userState = MutableStateFlow(User())
+    val userState = _userState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            repository.getUserAuthenticated().collect { userEntity ->
+                userEntity?.let {
+                    _userState.update {
+                        it.copy(
+                            id = userEntity.id,
+                            username = userEntity.username,
+                            isAuthenticated = userEntity.isAuthenticated
+                        )
+                    }
+                }
+            }
+        }
+    }
 
     private val _eventAuth = MutableSharedFlow<AuthenticationEvent>()
     val eventAuth = _eventAuth.asSharedFlow()
@@ -69,7 +87,7 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
     private suspend fun checkUserExit(username: String) {
         val result = repository.isUserExists(username)
-        if(result) {
+        if (result) {
             _eventRegister.emit(RegisterEvent.ShowError("An account with this email already exists. Please log in or use a different email."))
         } else {
             _eventRegister.emit(RegisterEvent.NextPasswordStep)

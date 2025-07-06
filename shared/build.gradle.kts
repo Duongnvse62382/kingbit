@@ -50,8 +50,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.androidx.room.runtime)
-            implementation(libs.compose.material3)
-
             implementation(libs.bundles.coil)
             implementation(libs.bundles.ktor)
             implementation(libs.koin.compose)
