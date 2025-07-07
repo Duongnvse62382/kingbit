@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.king.kingbit.android.presentation.home.HomeScreen
+import com.king.kingbit.android.presentation.home.MainScreen
 import com.king.kingbit.util.Route
 import com.king.kingbit.android.presentation.login.LoginScreen
 import com.king.kingbit.android.presentation.login.RegisterScreen
@@ -28,8 +28,8 @@ fun App() {
         composable<Route.Register> {
             RegisterScreen(navController)
         }
-        composable<Route.Home> {
-            HomeScreen()
+        composable<Route.Main> {
+            MainScreen(parentNavController = navController)
         }
     }
 }

@@ -47,7 +47,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.king.kingbit.android.R
 import com.king.kingbit.util.Route
@@ -83,7 +82,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = k
 
                 is AuthenticationEvent.NavigateHome -> {
                     navController.popBackStack()
-                    navController.navigate(Route.Home)
+                    navController.navigate(Route.Main)
                 }
 
                 AuthenticationEvent.NavigationRegister -> {
