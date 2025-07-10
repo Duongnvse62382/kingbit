@@ -22,7 +22,7 @@ sealed interface Route {
     data object Home : Route
 
     @Serializable
-    data object Email : Route
+    data object Game : Route
 
     @Serializable
     data object Settings : Route

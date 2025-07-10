@@ -40,6 +40,7 @@ fun SplashScreen(
         LaunchedEffect(userState.isAuthenticated) {
             delay(2000)
             if (userState.isAuthenticated) {
+                navController.popBackStack()
                 navController.navigate(Route.Main) {
                     popUpTo(Route.Login) { inclusive = true }
                 }

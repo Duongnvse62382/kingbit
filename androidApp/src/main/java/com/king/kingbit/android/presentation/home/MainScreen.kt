@@ -1,21 +1,18 @@
 package com.king.kingbit.android.presentation.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,19 +31,16 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import com.king.kingbit.android.presentation.home.bottom_nav.NavItemState
 import com.king.kingbit.android.presentation.home.bottom_nav.screen.HomeMainScreen
-import com.king.kingbit.android.presentation.home.bottom_nav.screen.MaiLScreen
 import com.king.kingbit.android.presentation.home.bottom_nav.screen.SettingsScreen
 import com.king.kingbit.util.Route
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.king.kingbit.android.presentation.home.bottom_nav.screen.RockPaperScissorsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -105,8 +99,8 @@ fun MainScreen(
                 .fillMaxSize()
         ) {
             composable<Route.Home> { HomeMainScreen() }
-            composable<Route.Email> { MaiLScreen() }
-            composable<Route.Settings> { SettingsScreen() }
+            composable<Route.Game> { RockPaperScissorsScreen() }
+            composable<Route.Settings> { SettingsScreen(parentNavController) }
         }
     }
 }
@@ -116,7 +110,7 @@ fun NavigationBarBottom(tabNavController : NavController){
     var navBarState by rememberSaveable { mutableIntStateOf(0) }
     val navigationItems = mutableListOf(
         NavItemState("Home", Icons.Filled.Home, Icons.Outlined.Home),
-        NavItemState("Email", Icons.Filled.Email, Icons.Outlined.Email),
+        NavItemState("Game", Icons.Filled.PlayArrow, Icons.Outlined.PlayArrow),
         NavItemState("Settings", Icons.Filled.Settings, Icons.Outlined.Settings)
     )
 
@@ -133,7 +127,7 @@ fun NavigationBarBottom(tabNavController : NavController){
                             tabNavController.navigate(Route.Home)
                         }
                         1 -> {
-                            tabNavController.navigate(Route.Email)
+                            tabNavController.navigate(Route.Game)
                         }
                         2-> {
                             tabNavController.navigate(Route.Settings)

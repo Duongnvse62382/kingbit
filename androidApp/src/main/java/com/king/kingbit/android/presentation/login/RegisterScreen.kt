@@ -38,7 +38,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -58,38 +60,34 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.king.kingbit.android.R
 import com.king.kingbit.android.design.KingBitTextField
-import com.king.kingbit.login.domain.model.RegisterStep
+import com.king.kingbit.login.presentation.RegisterStep
 import com.king.kingbit.login.domain.model.checkPassword
-import com.king.kingbit.login.presentation.LoginAction
-import com.king.kingbit.login.presentation.LoginViewModel
-import com.king.kingbit.login.presentation.RegisterEvent
+import com.king.kingbit.login.presentation.RegisterAction
+import com.king.kingbit.login.presentation.RegisterSideEffect
+import com.king.kingbit.login.presentation.RegisterViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun RegisterScreen(navController: NavController, loginViewModel: LoginViewModel = koinViewModel()) {
+fun RegisterScreen(
+    navController: NavController, registerViewModel: RegisterViewModel = koinViewModel()
+) {
     var showDialog by remember { mutableStateOf(false) }
-    var registerStep by remember { mutableStateOf(RegisterStep.EMAIL) }
-    var errorMessage by remember { mutableStateOf("") }
     var isRegistered by remember { mutableStateOf(false) }
-
+    val step by registerViewModel.step.collectAsStateWithLifecycle()
+    val email by registerViewModel.email.collectAsStateWithLifecycle()
+    val emailError by registerViewModel.emailError.collectAsStateWithLifecycle()
+    val password by registerViewModel.password.collectAsStateWithLifecycle()
+    val passwordConfirm by registerViewModel.passwordConfirm.collectAsStateWithLifecycle()
+    val passwordError by registerViewModel.passwordError.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        loginViewModel.eventRegister.collect { event ->
+        registerViewModel.eventRegister.collect { event ->
             when (event) {
-                RegisterEvent.Idle -> {
-                    errorMessage = ""
+                RegisterSideEffect.Idle -> {
                     showDialog = false
                 }
 
-                RegisterEvent.NextPasswordStep -> {
-                    registerStep = RegisterStep.PASSWORD
-                }
-
-                is RegisterEvent.ShowError -> {
-                    errorMessage = event.message
-                }
-
-                is RegisterEvent.RegisterStatus -> {
+                is RegisterSideEffect.RegisterStatus -> {
                     showDialog = true
                     isRegistered = event.isRegisterSuccess
                 }
@@ -98,35 +96,33 @@ fun RegisterScreen(navController: NavController, loginViewModel: LoginViewModel 
     }
 
     RegisterScreen(
-        errorMessage = errorMessage,
-        registerStep = registerStep,
+        step = step,
         showDialog = showDialog,
         isRegistered = isRegistered,
-        onAction = loginViewModel::onAction,
-        onBack = {
-            navController.popBackStack()
-        },
-        onRegisterStep = {
-            registerStep = it
-        })
+        email = email,
+        password = password,
+        passwordConfirm = passwordConfirm,
+        emailError = emailError,
+        passwordError = passwordError,
+        onAction = registerViewModel::onAction,
+        onBack = { navController.popBackStack() },
+    )
 }
 
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
-    errorMessage: String,
-    registerStep: RegisterStep,
+    step: RegisterStep,
     showDialog: Boolean,
     isRegistered: Boolean,
-    onAction: (LoginAction) -> Unit,
+    email: String,
+    password: String,
+    passwordConfirm: String,
+    emailError: String,
+    passwordError: String,
+    onAction: (RegisterAction) -> Unit,
     onBack: () -> Unit,
-    onRegisterStep: (RegisterStep) -> Unit
 ) {
-    var emailText by remember { mutableStateOf("") }
-    var passwordText by remember { mutableStateOf("") }
-    var passwordConfirmText by remember { mutableStateOf("") }
-
-
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
 
@@ -156,12 +152,10 @@ fun RegisterScreen(
                 title = if (isRegistered) "Registration Successful" else "Registration Failed",
                 message = if (isRegistered) "Your account has been created successfully. You can now log in and start using the app." else "Something went wrong during registration. Please try again later.",
                 onDismiss = {
-                    onAction(LoginAction.ResetLogin)
-                    if (isRegistered) {
-                        onBack()
-                    }
+                    onAction(RegisterAction.ResetRegister)
+                    if (isRegistered) onBack()
                 },
-                drawableIcon = if(isRegistered) R.drawable.image_sucess else R.drawable.logo_kingbit,
+                drawableIcon = if (isRegistered) R.drawable.image_sucess else R.drawable.logo_kingbit,
                 onAllow = {})
         }
 
@@ -169,49 +163,52 @@ fun RegisterScreen(
             modifier = rootModifier, verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
             RegisterHeaderSection(
-                modifier = Modifier.fillMaxWidth(), registerStep = registerStep
+                modifier = Modifier.fillMaxWidth(), registerStep = step
             )
 
-
             AnimatedContent(
-                targetState = registerStep, label = "register-step"
-            ) { step ->
-                when (step) {
+                targetState = step, label = "register-step"
+            ) { currentStep ->
+                when (currentStep) {
                     RegisterStep.EMAIL -> {
                         RegisterEmailSection(
-                            emailText = emailText,
+                            emailText = email,
                             onEmailTextChange = {
-                                emailText = it
+                                onAction(RegisterAction.EmailChanged(it))
                             },
-                            errorMessage = errorMessage,
+                            errorMessage = emailError,
                             focusManager = focusManager,
                             focusRequester = focusRequester,
                             onNext = {
-                                onAction(LoginAction.CheckEmailExited(emailText))
+                                onAction(RegisterAction.CheckEmailExited(email))
                             },
                             onBack = onBack,
-                            onAction = onAction
                         )
                     }
 
                     RegisterStep.PASSWORD -> {
                         RegisterPasswordSection(
-                            passwordText = passwordText,
-                            onPasswordTextChange = {
-                                passwordText = it
-                            },
-                            passwordConfirmText = passwordConfirmText,
+                            passwordText = password,
+                            onPasswordTextChange = { onAction(RegisterAction.PasswordChanged(it)) },
+                            passwordConfirmText = passwordConfirm,
                             onPasswordConfirmTextChange = {
-                                passwordConfirmText = it
+                                onAction(
+                                    RegisterAction.PasswordConfirmChanged(
+                                        it
+                                    )
+                                )
                             },
                             focusManager = focusManager,
                             focusRequester = focusRequester,
                             onSubmit = {
-                                onAction(LoginAction.RegisterKingBit(emailText, passwordText))
+                                onAction(RegisterAction.RegisterKingBit(email, password))
                             },
                             onBack = {
-                                onRegisterStep(RegisterStep.EMAIL)
-                            })
+                                onAction(RegisterAction.EmailChanged(email))
+                                onBack()
+                            },
+                            passwordError = passwordError,
+                            onCheckPasswordMatch = { onAction(RegisterAction.CheckPasswordMatch) })
                     }
                 }
             }
@@ -277,31 +274,22 @@ fun RegisterEmailSection(
     focusManager: FocusManager,
     onNext: () -> Unit,
     onBack: () -> Unit,
-    onAction: (LoginAction) -> Unit
 ) {
-    var emailError by remember { mutableStateOf("") }
-
-    LaunchedEffect(errorMessage) {
-        emailError = errorMessage
+    val isEnable by remember(emailText) {
+        derivedStateOf {
+            emailText.isNotEmpty() && validateEmail(emailText)
+        }
     }
-
     Box(
         modifier = modifier.fillMaxSize()
     ) {
         KingBitTextField(
             text = emailText,
             onValueChange = {
-                onAction(LoginAction.ResetLogin)
                 onEmailTextChange(it)
-                emailError = ""
             },
             onDone = {
                 focusManager.clearFocus()
-                emailError = when {
-                    emailText.isEmpty() -> "Please enter your email address."
-                    !validateEmail(emailText) -> "Enter a valid email address."
-                    else -> ""
-                }
             },
             label = "Email",
             hint = "Enter your email",
@@ -311,11 +299,10 @@ fun RegisterEmailSection(
             drawable = R.drawable.ic_email,
             focusRequester = focusRequester,
             focusManager = focusManager,
-            isError = emailError.isNotEmpty(),
-            errorMessage = emailError,
+            isError = errorMessage.isNotEmpty(),
+            errorMessage = errorMessage,
             imeAction = ImeAction.Done
         )
-
 
         Row(
             modifier = Modifier
@@ -325,7 +312,6 @@ fun RegisterEmailSection(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             OutlinedButton(
                 modifier = Modifier.height(45.dp), onClick = {
                     onBack()
@@ -343,11 +329,9 @@ fun RegisterEmailSection(
 
             Spacer(modifier = Modifier.width(16.dp))
 
-
             Button(
                 onClick = {
-                    if (emailText.isNotEmpty() && validateEmail(emailText)) {
-                        onAction(LoginAction.ResetLogin)
+                    if (isEnable) {
                         onNext()
                     }
                 },
@@ -358,7 +342,7 @@ fun RegisterEmailSection(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary, contentColor = Color.White
                 ),
-                enabled = emailText.isNotEmpty() && validateEmail(emailText),
+                enabled = isEnable,
                 contentPadding = PaddingValues(12.dp),
             ) {
                 Box(
@@ -367,12 +351,11 @@ fun RegisterEmailSection(
                     Text(
                         modifier = Modifier.align(Alignment.Center), text = "Next", fontSize = 18.sp
                     )
-
                     Icon(
                         modifier = Modifier.align(Alignment.BottomEnd),
                         imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "Next",
-                        tint = if (emailText.isNotEmpty() && validateEmail(emailText)) Color.White else Color.Gray
+                        tint = if (isEnable) Color.White else Color.Gray
                     )
                 }
             }
@@ -390,12 +373,22 @@ fun RegisterPasswordSection(
     focusRequester: FocusRequester,
     focusManager: FocusManager,
     onSubmit: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    passwordError: String,
+    onCheckPasswordMatch: () -> Unit
 ) {
-    var passwordError by remember { mutableStateOf("") }
-    var passwordErrorConfirm by remember { mutableStateOf("") }
-
     val requirements = remember(passwordText) { checkPassword(passwordText) }
+    val isEnableConfirm by remember(requirements) {
+        derivedStateOf {
+            requirements.hasDigit && requirements.hasLetter && requirements.isAtLeast8Chars
+        }
+    }
+
+    val isEnableSubmit by remember(passwordConfirmText, passwordText) {
+        derivedStateOf {
+            passwordConfirmText.isNotEmpty() && passwordText == passwordConfirmText
+        }
+    }
 
     Box(
         modifier = modifier.fillMaxSize()
@@ -405,8 +398,6 @@ fun RegisterPasswordSection(
                 text = passwordText,
                 onValueChange = {
                     onPasswordTextChange(it)
-                    passwordError = ""
-                    passwordErrorConfirm = ""
                 },
                 onDone = {
                     focusManager.clearFocus()
@@ -419,8 +410,8 @@ fun RegisterPasswordSection(
                 drawable = R.drawable.ic_password,
                 focusRequester = focusRequester,
                 focusManager = focusManager,
-                isError = passwordError.isNotEmpty(),
-                errorMessage = passwordError,
+                isError = false,
+                errorMessage = "",
                 imeAction = ImeAction.Done,
             )
 
@@ -436,13 +427,10 @@ fun RegisterPasswordSection(
                 text = passwordConfirmText,
                 onValueChange = {
                     onPasswordConfirmTextChange(it)
-                    passwordErrorConfirm = ""
                 },
                 onDone = {
                     focusManager.clearFocus()
-                    if (passwordText != passwordConfirmText) {
-                        passwordErrorConfirm = "Password not math"
-                    }
+                    onCheckPasswordMatch()
                 },
                 label = "Confirm Password",
                 hint = "Enter your password",
@@ -453,13 +441,11 @@ fun RegisterPasswordSection(
                 drawable = R.drawable.ic_password,
                 focusRequester = focusRequester,
                 focusManager = focusManager,
-                isError = passwordErrorConfirm.isNotEmpty(),
-                errorMessage = passwordErrorConfirm,
-                enable = requirements.hasDigit && requirements.hasLetter && requirements.isAtLeast8Chars
+                isError = passwordError.isNotEmpty(),
+                errorMessage = passwordError,
+                enable = isEnableConfirm
             )
         }
-
-
 
         Row(
             modifier = Modifier
@@ -498,7 +484,7 @@ fun RegisterPasswordSection(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary, contentColor = Color.White
                 ),
-                enabled = passwordConfirmText.isNotEmpty() && passwordText == passwordConfirmText,
+                enabled = isEnableSubmit,
                 contentPadding = PaddingValues(12.dp),
             ) {
                 Box(

@@ -17,6 +17,7 @@ import com.king.kingbit.home.data.network.KtorRemoteCoinDataResource
 import com.king.kingbit.home.data.repository.CoinRepositoryImp
 import com.king.kingbit.home.domain.usecase.CoinRepository
 import com.king.kingbit.home.presentation.HomeViewModel
+import com.king.kingbit.login.presentation.RegisterViewModel
 
 
 expect val platformModule : Module
@@ -36,4 +37,5 @@ val sharedModule = module {
 
     viewModelOf(::LoginViewModel)
     viewModelOf(::HomeViewModel)
+    viewModelOf(::RegisterViewModel)
 }

@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,9 +48,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.king.kingbit.android.R
-import com.king.kingbit.util.Route
 import com.king.kingbit.android.design.KingBitButton
 import com.king.kingbit.android.design.KingBitLink
 import com.king.kingbit.android.design.KingBitTextField
@@ -57,48 +58,64 @@ import com.king.kingbit.android.presentation.login.components.ConnectWithApp
 import com.king.kingbit.android.presentation.login.components.ConnectWithDivider
 import com.king.kingbit.android.presentation.login.components.CustomDialogUI
 import com.king.kingbit.android.util.DeviceConfiguration
+import com.king.kingbit.login.presentation.AuthenticationSideEffect
 import com.king.kingbit.login.presentation.LoginAction
-import com.king.kingbit.login.presentation.AuthenticationEvent
 import com.king.kingbit.login.presentation.LoginViewModel
+import com.king.kingbit.util.Route
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = koinViewModel()) {
+fun LoginScreen(
+    navController: NavController, loginViewModel: LoginViewModel = koinViewModel()
+) {
     var showDialog by remember { mutableStateOf(false) }
     var loginErrorMessage by remember { mutableStateOf("") }
+
+    val emailError by loginViewModel.emailError.collectAsStateWithLifecycle()
+    val passwordError by loginViewModel.passwordError.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         loginViewModel.eventAuth.collect { event ->
             when (event) {
-                is AuthenticationEvent.ShowError -> {
+                is AuthenticationSideEffect.ShowError -> {
                     showDialog = true
                     loginErrorMessage = event.message
                 }
 
-                is AuthenticationEvent.Idle -> {
+                is AuthenticationSideEffect.Idle -> {
                     showDialog = false
                     loginErrorMessage = ""
                 }
 
-                is AuthenticationEvent.NavigateHome -> {
+                is AuthenticationSideEffect.NavigateHome -> {
                     navController.popBackStack()
                     navController.navigate(Route.Main)
                 }
 
-                AuthenticationEvent.NavigationRegister -> {
+                AuthenticationSideEffect.NavigationRegister -> {
                     navController.navigate(Route.Register)
                 }
             }
         }
     }
     LoginScreen(
-        showDialog = showDialog, loginErrorMessage = loginErrorMessage, onAction = loginViewModel::onAction
+        showDialog = showDialog,
+        loginErrorMessage = loginErrorMessage,
+        onAction = loginViewModel::onAction,
+        emailError = emailError,
+        passwordError = passwordError
     )
 }
 
 
 @Composable
-fun LoginScreen(showDialog: Boolean, loginErrorMessage : String, onAction: (LoginAction) -> Unit) {
+fun LoginScreen(
+    showDialog: Boolean,
+    loginErrorMessage: String,
+    onAction: (LoginAction) -> Unit,
+    emailError: String,
+    passwordError: String
+) {
 
     var emailText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
@@ -128,11 +145,16 @@ fun LoginScreen(showDialog: Boolean, loginErrorMessage : String, onAction: (Logi
             .consumeWindowInsets(WindowInsets.navigationBars)
 
         if (showDialog) {
-            KingBitDialog(title = "Incorrect Credentials", message = loginErrorMessage, drawableIcon = R.drawable.logo_kingbit, onDismiss = {
-                onAction(LoginAction.ResetLogin)
-            }, onAllow = {
+            KingBitDialog(
+                title = "Incorrect Credentials",
+                message = loginErrorMessage,
+                drawableIcon = R.drawable.logo_kingbit,
+                onDismiss = {
+                    onAction(LoginAction.ResetLogin)
+                },
+                onAllow = {
 
-            })
+                })
         }
 
         val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
@@ -146,19 +168,23 @@ fun LoginScreen(showDialog: Boolean, loginErrorMessage : String, onAction: (Logi
                     )
                     LoginFormSection(
                         emailText = emailText,
-                        onEmailTextChange = { emailText = it },
+                        onEmailTextChange = {
+                            emailText = it
+                            onAction(LoginAction.ResetEmailError)
+                        },
                         passwordText = passwordText,
-                        onPasswordTextChange = { passwordText = it },
+                        onPasswordTextChange = {
+                            passwordText = it
+                            onAction(LoginAction.ResetPasswordError)
+                        },
                         onLogin = {
-                            onAction(
-                                LoginAction.LoginKingBit(
-                                    username = emailText, password = passwordText
-                                )
-                            )
+                            onAction(LoginAction.LoginKingBit(emailText, passwordText))
                         },
                         onNavigationRegister = {
                             onAction(LoginAction.GoRegister)
                         },
+                        emailError = emailError,
+                        passwordError = passwordError,
                         modifier = Modifier.fillMaxWidth(),
                         focusRequester = focusRequester,
                         focusManager = focusManager
@@ -183,15 +209,13 @@ fun LoginScreen(showDialog: Boolean, loginErrorMessage : String, onAction: (Logi
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
                         onLogin = {
-                            onAction(
-                                LoginAction.LoginKingBit(
-                                    username = emailText, password = passwordText
-                                )
-                            )
+                            onAction(LoginAction.LoginKingBit(emailText, passwordText))
                         },
                         onNavigationRegister = {
                             onAction(LoginAction.GoRegister)
                         },
+                        emailError = emailError,
+                        passwordError = passwordError,
                         modifier = Modifier
                             .weight(1f)
                             .verticalScroll(rememberScrollState()),
@@ -219,15 +243,13 @@ fun LoginScreen(showDialog: Boolean, loginErrorMessage : String, onAction: (Logi
                         passwordText = passwordText,
                         onPasswordTextChange = { passwordText = it },
                         onLogin = {
-                            onAction(
-                                LoginAction.LoginKingBit(
-                                    username = emailText, password = passwordText
-                                )
-                            )
+                            onAction(LoginAction.LoginKingBit(emailText, passwordText))
                         },
                         onNavigationRegister = {
                             onAction(LoginAction.GoRegister)
                         },
+                        emailError = emailError,
+                        passwordError = passwordError,
                         modifier = Modifier.widthIn(max = 540.dp),
                         focusRequester = focusRequester,
                         focusManager = focusManager
@@ -279,21 +301,24 @@ fun LoginFormSection(
     onPasswordTextChange: (String) -> Unit,
     onLogin: () -> Unit,
     onNavigationRegister: () -> Unit,
+    emailError: String,
+    passwordError: String,
     focusRequester: FocusRequester,
     focusManager: FocusManager,
 ) {
-    var emailError by remember { mutableStateOf("") }
-    var passwordError by remember { mutableStateOf("") }
+    val isEnabled by remember(emailText, passwordText) {
+        derivedStateOf {
+            emailText.isNotEmpty() && passwordText.isNotEmpty()
+        }
+    }
+
     Column(
         modifier = modifier
     ) {
         KingBitTextField(
             text = emailText,
-            onValueChange = {
-                onEmailTextChange(it)
-                emailError = ""
-            },
-            onDone = {},
+            onValueChange = onEmailTextChange,
+            onDone = onLogin,
             label = "Email",
             hint = "Enter your email",
             isInputSecret = false,
@@ -304,28 +329,13 @@ fun LoginFormSection(
             focusManager = focusManager,
             isError = emailError.isNotEmpty(),
             errorMessage = emailError
-
         )
 
         Spacer(modifier = Modifier.height(16.dp))
         KingBitTextField(
             text = passwordText,
-            onValueChange = {
-                onPasswordTextChange(it)
-                passwordError = ""
-            },
-            onDone = {
-                focusManager.clearFocus()
-                emailError = when {
-                    emailText.isEmpty() -> "Please enter your email address."
-                    !validateEmail(emailText) -> "Enter a valid email address."
-                    else -> ""
-                }
-                passwordError = if (passwordText.isEmpty()) "Please enter your password." else ""
-                if (emailText.isNotEmpty() && passwordText.isNotEmpty() && validateEmail(emailText)) {
-                    onLogin()
-                }
-            },
+            onValueChange = onPasswordTextChange,
+            onDone = onLogin,
             label = "Password",
             hint = "Enter your password",
             isInputSecret = true,
@@ -342,18 +352,8 @@ fun LoginFormSection(
         KingBitButton(
             modifier = Modifier.fillMaxWidth(), text = "Log In", onClick = {
                 focusManager.clearFocus()
-                emailError = when {
-                    emailText.isEmpty() -> "Please enter your email address."
-                    !validateEmail(emailText) -> "Enter a valid email address."
-                    else -> ""
-                }
-                passwordError = if (passwordText.isEmpty()) "Please enter your password." else ""
-
-                if (emailText.isNotEmpty() && passwordText.isNotEmpty() && validateEmail(emailText)) {
-                    onLogin()
-                }
-
-            }, enabled = emailText.isNotEmpty() && passwordText.isNotEmpty()
+                onLogin()
+            }, enabled = isEnabled
         )
         Spacer(modifier = Modifier.height(16.dp))
 
