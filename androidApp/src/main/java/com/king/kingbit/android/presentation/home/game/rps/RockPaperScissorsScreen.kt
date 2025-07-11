@@ -1,51 +1,56 @@
-package com.king.kingbit.android.presentation.home.bottom_nav.screen
+package com.king.kingbit.android.presentation.home.game.rps
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.king.kingbit.android.R
 import kotlinx.coroutines.delay
 import kotlin.math.pow
 import kotlin.math.sqrt
-import com.king.kingbit.android.R
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import kotlin.random.Random
 
-// Enum for Rock-Paper-Scissors
+
 enum class RPS {
     ROCK, PAPER, SCISSORS
-}
-
-// Utility function for mutableFloatStateOf using mutableStateOf for Float type
-fun mutableFloatStateOf(value: Float) = mutableStateOf(value)
-
-@Composable
-fun RockPaperScissorsScreen (modifier: Modifier = Modifier) {
-   RockPaperScissorsGame(modifier)
 }
 
 
 @Stable
 data class Particle(
-    val id: Int, // stable key
+    val id: Int,
     val type: MutableState<RPS>,
     val x: MutableState<Float>,
     val y: MutableState<Float>,
@@ -55,31 +60,31 @@ data class Particle(
 
 @Composable
 fun RockPaperScissorsGame(modifier: Modifier) {
-    val particleSizeDp = 48.dp
+    val particleSizeDp = 45.dp
     val particleSizePx = with(LocalDensity.current) { particleSizeDp.toPx() }
-    val rockPainter = painterResource(id = R.drawable.ic_apple)
-    val paperPainter = painterResource(id = R.drawable.ic_google)
-    val scissorsPainter = painterResource(id = R.drawable.ic_fb)
+    val rockPainter = painterResource(id = R.drawable.ic_rock)
+    val paperPainter = painterResource(id = R.drawable.ic_paper)
+    val scissorsPainter = painterResource(id = R.drawable.ic_scissors)
 
-    var gameWidth by remember { mutableStateOf(0f) }
-    var gameHeight by remember { mutableStateOf(0f) }
+    var gameWidth by remember { mutableFloatStateOf(0f) }
+    var gameHeight by remember { mutableFloatStateOf(0f) }
 
     val particles = remember { mutableStateListOf<Particle>() }
-    var gameKey by remember { mutableStateOf(0) }
+    var gameKey by remember { mutableIntStateOf(0) }
     var gameOver by remember { mutableStateOf(false) }
     var winnerType by remember { mutableStateOf<RPS?>(null) }
 
-    fun getWinnerEmoji(type: RPS?): String = when (type) {
-        RPS.ROCK -> "🪨"
-        RPS.PAPER -> "📄"
-        RPS.SCISSORS -> "✂️"
-        null -> ""
+    fun getWinnerPainter(type: RPS?): androidx.compose.ui.graphics.painter.Painter? = when (type) {
+        RPS.ROCK -> rockPainter
+        RPS.PAPER -> paperPainter
+        RPS.SCISSORS -> scissorsPainter
+        else -> null
     }
 
     fun getWinnerColor(type: RPS?): Color = when (type) {
-        RPS.ROCK -> Color(0xFF90CAF9) // blue
-        RPS.PAPER -> Color(0xFFC8E6C9) // green
-        RPS.SCISSORS -> Color(0xFFFFAB91) // orange
+        RPS.ROCK -> Color(0xFF90CAF9)
+        RPS.PAPER -> Color(0xFFC8E6C9)
+        RPS.SCISSORS -> Color(0xFFFFAB91)
         null -> Color(0xAA222222)
     }
 
@@ -127,6 +132,10 @@ fun RockPaperScissorsGame(modifier: Modifier) {
             val paperCount = particles.count { it.type.value == RPS.PAPER }
             val scissorsCount = particles.count { it.type.value == RPS.SCISSORS }
 
+            val typesPresent = listOf(rockCount, paperCount, scissorsCount).count { it > 0 }
+
+            val twoTypeSpeedBoost = if (typesPresent == 2) 3.5f else 1f
+
             val minSpeedBoost = 1f
             val maxSpeedBoost = 3f
             val startBoostingBelow = 5
@@ -135,38 +144,19 @@ fun RockPaperScissorsGame(modifier: Modifier) {
                 ((maxSpeedBoost - minSpeedBoost) * (startBoostingBelow - left) / (startBoostingBelow - 1).toFloat() + minSpeedBoost)
             else minSpeedBoost
 
-            // Endgame magnet: if only a few left, nudge toward center of mass so a winner is guaranteed
             val magnetStrength = if (left <= 3) 0.19f else 0f
             val meanX = particles.map { it.x.value }.average().toFloat()
             val meanY = particles.map { it.y.value }.average().toFloat()
 
             particles.forEach { p ->
-                // Speed boost for underdog team (optional, reduced effect, can be removed if not desired)
                 val underdogBoost = when (p.type.value) {
-                    RPS.ROCK -> if (rockCount == minOf(
-                            rockCount,
-                            paperCount,
-                            scissorsCount
-                        )
-                    ) 1.2f else 1f
-
-                    RPS.PAPER -> if (paperCount == minOf(
-                            rockCount,
-                            paperCount,
-                            scissorsCount
-                        )
-                    ) 1.2f else 1f
-
-                    RPS.SCISSORS -> if (scissorsCount == minOf(
-                            rockCount,
-                            paperCount,
-                            scissorsCount
-                        )
-                    ) 1.2f else 1f
+                    RPS.ROCK -> if (rockCount == minOf(rockCount, paperCount, scissorsCount)) 1.2f else 1f
+                    RPS.PAPER -> if (paperCount == minOf(rockCount, paperCount, scissorsCount)) 1.2f else 1f
+                    RPS.SCISSORS -> if (scissorsCount == minOf(rockCount, paperCount, scissorsCount)) 1.2f else 1f
                 }
-                val speedMultiplier = underdogBoost * globalSpeedBoost
 
-                // Magnet attraction (endgame): nudge toward center of mass
+                val speedMultiplier = underdogBoost * globalSpeedBoost * twoTypeSpeedBoost
+
                 if (magnetStrength > 0f) {
                     val dxToCenter = meanX - p.x.value
                     val dyToCenter = meanY - p.y.value
@@ -190,27 +180,34 @@ fun RockPaperScissorsGame(modifier: Modifier) {
                 }
             }
 
-            // --- FIXED ELIMINATION LOGIC ---
-            var removed = false
-            outer@ for (i in particles.indices) {
+            outer@ for (i in particles.indices.reversed()) {
                 val p1 = particles.getOrNull(i) ?: continue
-                for (j in (i + 1) until particles.size) {
+                for (j in (0 until i).reversed()) {
                     val p2 = particles.getOrNull(j) ?: continue
+
                     if (distance(p1.x.value, p1.y.value, p2.x.value, p2.y.value) < particleSizePx) {
-                        val w = winner(p1.type.value, p2.type.value)
-                        if (w != null) {
-                            if (w == p1.type.value) {
-                                particles.remove(p2)
+                        val winningType = winner(p1.type.value, p2.type.value)
+
+                        if (winningType != null) {
+                            val (winnerParticle, loserParticle) = if (winningType == p1.type.value) {
+                                p1 to p2
                             } else {
-                                particles.remove(p1)
+                                p2 to p1
                             }
-                            removed = true
+
+                            val winnerTypeCount = particles.count { it.type.value == winnerParticle.type.value }
+
+                            if (winnerTypeCount <= 2) {
+                                loserParticle.type.value = winnerParticle.type.value
+                            } else {
+                                particles.remove(loserParticle)
+                            }
                             break@outer
                         }
                     }
                 }
             }
-            // Winner check
+
             val countRock = particles.count { it.type.value == RPS.ROCK }
             val countPaper = particles.count { it.type.value == RPS.PAPER }
             val countScissors = particles.count { it.type.value == RPS.SCISSORS }
@@ -226,70 +223,22 @@ fun RockPaperScissorsGame(modifier: Modifier) {
         }
     }
 
-    val scoreboardShape = RoundedCornerShape(18.dp)
-    val scoreboardBg = Brush.horizontalGradient(listOf(Color(0xFFEEEEEE), Color(0xFFB3E5FC)))
+    val gradientBg = Brush.linearGradient(
+        colors = listOf(
+            Color(0xFFFFF1E0),
+            Color(0xFFE0FFFB),
+            Color(0xFFD0EAFF),
+            Color(0xFFFFE3EC)
+        ),
+        start = Offset.Zero,
+        end = Offset(1000f, 1800f)
+    )
 
     Column(
         modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF2193b0), // blue
-                        Color(0xFF6dd5ed)  // light blue
-                    )
-                )
-            )
+            .background(gradientBg)
     ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-                .background(scoreboardBg, scoreboardShape)
-                .padding(vertical = 8.dp, horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Button(onClick = {
-                gameOver = false
-                particles.clear()
-                populateParticles()
-                gameKey += 1 // Restart
-            }, modifier = Modifier.shadow(4.dp, RoundedCornerShape(12.dp))) {
-                Text("🔄 Reset", fontSize = 16.sp)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    "🪨 ",
-                    fontSize = 20.sp
-                ); Text(
-                ": ${particles.count { it.type.value == RPS.ROCK }}",
-                fontSize = 18.sp,
-                color = Color(0xFF1565C0)
-            )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    "📄 ",
-                    fontSize = 20.sp
-                ); Text(
-                ": ${particles.count { it.type.value == RPS.PAPER }}",
-                fontSize = 18.sp,
-                color = Color(0xFF388E3C)
-            )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    "✂️ ",
-                    fontSize = 20.sp
-                ); Text(
-                ": ${particles.count { it.type.value == RPS.SCISSORS }}",
-                fontSize = 18.sp,
-                color = Color(0xFFD84315)
-            )
-            }
-        }
-
         Box(
             Modifier
                 .weight(1f)
@@ -311,52 +260,87 @@ fun RockPaperScissorsGame(modifier: Modifier) {
                     modifier = Modifier
                         .size(particleSizeDp)
                         .offset { IntOffset(p.x.value.toInt(), p.y.value.toInt()) }
-                        .shadow(8.dp, shape = RoundedCornerShape(10))
                 )
             }
-            // Place AnimatedVisibility directly inside the Box scope, not in Column/ColumnScope
             androidx.compose.animation.AnimatedVisibility(
                 visible = gameOver,
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
                 val animScale by animateFloatAsState(
-                    targetValue = if (gameOver) 1.1f else 0.8f,
+                    targetValue = if (gameOver) 1.32f else 1.0f,
                     label = "gameOverScale"
                 )
+                val winnerGlow =
+                    if (winnerType != null) Brush.radialGradient(
+                        colors = listOf(
+                            Color.White.copy(alpha = 0.18f),
+                            getWinnerColor(winnerType).copy(alpha = 0.62f),
+                            Color.Transparent
+                        ),
+                        radius = 400f,
+                        center = Offset(440f, 600f)
+                    ) else Brush.verticalGradient(listOf(Color.Transparent, Color.Transparent))
+
+                // --- MODIFICATION START ---
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .background(getWinnerColor(winnerType).copy(alpha = 0.85f))
-                        .padding(32.dp),
+                        .background(getWinnerColor(winnerType).copy(alpha = 0.96f))
+                        // Make the entire screen clickable to restart the game
+                        .clickable {
+                            gameOver = false
+                            particles.clear()
+                            populateParticles()
+                            gameKey += 1 // This restarts the LaunchedEffect
+                        }
+                        .padding(36.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = buildString {
-                                append("Game Over\nWinner: ")
-                                append(getWinnerEmoji(winnerType))
-                                append(" ")
-                                append(winnerType?.name?.replaceFirstChar { it.uppercase() } ?: "")
-                            },
-                            fontSize = 38.sp * animScale,
-                            color = Color(0xFF263238),
-                            modifier = Modifier,
-                        )
-                        Spacer(Modifier.height(18.dp))
-                        Text(
-                            "Tap reset to play again!",
+                            text = "Game Over\nWinner:",
+                            fontSize = 28.sp,
                             color = Color(0xFF37474F),
-                            fontSize = 18.sp
+                            modifier = Modifier.padding(bottom = 12.dp),
+                        )
+                        Box(
+                            modifier = Modifier
+                                .padding(top = 6.dp, bottom = 3.dp)
+                                .size((98 * animScale).dp)
+                                .background(winnerGlow, shape = CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            val winnerPainter = getWinnerPainter(winnerType)
+                            if (winnerPainter != null) {
+                                Image(
+                                    painter = winnerPainter,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(70.dp * animScale)
+                                )
+                            }
+                        }
+                        Text(
+                            (winnerType?.name?.replaceFirstChar { it.uppercase() } ?: ""),
+                            fontSize = 42.sp,
+                            color = Color(0xFF263238),
+                            modifier = Modifier.padding(top = 10.dp, bottom = 12.dp),
+                        )
+                        // Updated the instruction text
+                        Text(
+                            "Tap anywhere to play again!",
+                            color = Color(0xFF5E636A),
+                            fontSize = 19.sp,
+                            modifier = Modifier.padding(top = 12.dp)
                         )
                     }
                 }
+                // --- MODIFICATION END ---
             }
         }
     }
 }
 
-// The winning rate of scissors will be very high :)
 fun randomParticle(type: RPS, id: Int, x: Float, y: Float): Particle {
     return Particle(
         id = id,
