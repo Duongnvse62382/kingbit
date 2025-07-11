@@ -282,7 +282,6 @@ fun RockPaperScissorsGame(modifier: Modifier) {
                         center = Offset(440f, 600f)
                     ) else Brush.verticalGradient(listOf(Color.Transparent, Color.Transparent))
 
-                // --- MODIFICATION START ---
                 Box(
                     Modifier
                         .fillMaxSize()
@@ -326,7 +325,6 @@ fun RockPaperScissorsGame(modifier: Modifier) {
                             color = Color(0xFF263238),
                             modifier = Modifier.padding(top = 10.dp, bottom = 12.dp),
                         )
-                        // Updated the instruction text
                         Text(
                             "Tap anywhere to play again!",
                             color = Color(0xFF5E636A),
@@ -335,7 +333,6 @@ fun RockPaperScissorsGame(modifier: Modifier) {
                         )
                     }
                 }
-                // --- MODIFICATION END ---
             }
         }
     }
