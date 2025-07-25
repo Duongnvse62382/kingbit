@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.jetbrains.compose.navigation)
     implementation(libs.google.accompanis)
     implementation(libs.google.credentials)
+    implementation(libs.bundles.coil)
 //    implementation(libs.google.googleid)
 //    implementation(libs.play.services)
 

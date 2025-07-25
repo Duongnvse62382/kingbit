@@ -26,16 +26,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
-import com.king.kingbit.android.presentation.home.bottom_nav.NavItemState
-import com.king.kingbit.android.presentation.home.bottom_nav.screen.HomeMainScreen
-import com.king.kingbit.android.presentation.home.bottom_nav.screen.SettingsScreen
-import com.king.kingbit.util.Route
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.king.kingbit.android.presentation.home.game.GameHubScreen
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
+import com.king.kingbit.android.presentation.home.bottom_nav.NavItemState
+import com.king.kingbit.android.presentation.home.crypto.CoinDetailScreen
+import com.king.kingbit.android.presentation.home.crypto.CoinListRootScreen
+import com.king.kingbit.android.presentation.home.crypto.CoinTopListRootScreen
+import com.king.kingbit.android.presentation.home.crypto.SettingsScreen
 import com.king.kingbit.android.presentation.home.game.GameDetailScreen
+import com.king.kingbit.android.presentation.home.game.GameHubScreen
+import com.king.kingbit.util.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,8 +44,6 @@ fun MainScreen(
     parentNavController: NavController,
 ) {
     val tabNavController = rememberNavController()
-    var navBarState by rememberSaveable { mutableIntStateOf(0) }
-
 
     Scaffold(
         modifier = modifier.background(MaterialTheme.colorScheme.background),
@@ -53,21 +51,24 @@ fun MainScreen(
             NavigationBarBottom(tabNavController)
         }
 
-
     ) { innerPadding ->
         NavHost(
             navController = tabNavController,
-            startDestination = Route.Home,
+            startDestination = Route.CoinList,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            composable<Route.Home> { HomeMainScreen() }
+            composable<Route.CoinList> { CoinListRootScreen(navController = tabNavController) }
+            composable<Route.CoinTop> {
+                CoinTopListRootScreen(navController = tabNavController)
+            }
+            composable<Route.CoinDetail> { backStackEntry ->
+                val coinId = backStackEntry.arguments?.getString("coinId")
+                CoinDetailScreen(coinId = coinId.toString(), tabNavController = tabNavController)
+            }
             composable<Route.Game> { GameHubScreen(navController = tabNavController) }
-            composable(
-                route = "gameDetail/{gameId}",
-                arguments = listOf(navArgument("gameId") { type = NavType.StringType })
-            ) { backStackEntry ->
+            composable<Route.GameDetail>{ backStackEntry ->
                 val gameId = backStackEntry.arguments?.getString("gameId")
                 GameDetailScreen(gameId = gameId, navController = tabNavController)
             }
@@ -95,7 +96,7 @@ fun NavigationBarBottom(tabNavController : NavController){
                     navBarState = index
                     when(index){
                         0 -> {
-                            tabNavController.navigate(Route.Home)
+                            tabNavController.navigate(Route.CoinList)
                         }
                         1 -> {
                             tabNavController.navigate(Route.Game)

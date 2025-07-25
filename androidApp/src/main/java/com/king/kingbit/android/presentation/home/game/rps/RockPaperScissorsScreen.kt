@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -74,7 +75,7 @@ fun RockPaperScissorsGame(modifier: Modifier) {
     var gameOver by remember { mutableStateOf(false) }
     var winnerType by remember { mutableStateOf<RPS?>(null) }
 
-    fun getWinnerPainter(type: RPS?): androidx.compose.ui.graphics.painter.Painter? = when (type) {
+    fun getWinnerPainter(type: RPS?): Painter? = when (type) {
         RPS.ROCK -> rockPainter
         RPS.PAPER -> paperPainter
         RPS.SCISSORS -> scissorsPainter

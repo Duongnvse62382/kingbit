@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.navigation.NavController
 import com.king.kingbit.android.presentation.home.game.rps.RockPaperScissorsGame
+import com.king.kingbit.util.Route
 
 // Define the model
 class GameItem(
@@ -31,7 +32,7 @@ val gamesList = listOf(
     GameItem(
         id = "rps",
         name = "Rock Paper Scissors",
-        icon = R.drawable.ic_apple, // or a better game icon if you have
+        icon = R.drawable.rock_paper_scissors, // or a better game icon if you have
         description = "A fun battle simulation with physics!",
         content = { RockPaperScissorsGame(Modifier.fillMaxSize()) }
     )
@@ -61,7 +62,7 @@ fun GameHubScreen(modifier: Modifier = Modifier, navController: NavController) {
                 Modifier
                     .padding(vertical = 10.dp, horizontal = 18.dp)
                     .fillMaxWidth()
-                    .clickable { navController.navigate("gameDetail/${game.id}") }
+                    .clickable { navController.navigate(route = Route.GameDetail(game.id)) }
                     .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.medium)
                     .padding(14.dp),
                 verticalAlignment = Alignment.CenterVertically
