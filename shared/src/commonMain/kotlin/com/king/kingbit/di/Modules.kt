@@ -16,7 +16,8 @@ import org.koin.dsl.module
 import com.king.kingbit.home.data.network.KtorRemoteCoinDataResource
 import com.king.kingbit.home.data.repository.CoinRepositoryImp
 import com.king.kingbit.home.domain.usecase.CoinRepository
-import com.king.kingbit.home.presentation.HomeViewModel
+import com.king.kingbit.home.presentation.crypto.viewmodel.HotCoinsViewModel
+import com.king.kingbit.home.presentation.crypto.viewmodel.TopCryptoViewModel
 import com.king.kingbit.login.presentation.RegisterViewModel
 
 
@@ -36,6 +37,7 @@ val sharedModule = module {
     singleOf(::DefaultUserRepository) bind UserRepository::class
 
     viewModelOf(::LoginViewModel)
-    viewModelOf(::HomeViewModel)
+    viewModelOf(::HotCoinsViewModel)
     viewModelOf(::RegisterViewModel)
+    viewModelOf(::TopCryptoViewModel)
 }

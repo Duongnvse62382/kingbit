@@ -19,13 +19,13 @@ sealed interface Route {
 
     //Bottom Nav
     @Serializable
-    data object CoinList : Route
+    data object HotCoins : Route
 
     @Serializable
     data class CoinDetail(val coinId: String = "") : Route
 
     @Serializable
-    data object CoinTop : Route
+    data object TopCrypto : Route
 
     @Serializable
     data object Game : Route
@@ -35,5 +35,4 @@ sealed interface Route {
 
     @Serializable
     data object Settings : Route
-
 }

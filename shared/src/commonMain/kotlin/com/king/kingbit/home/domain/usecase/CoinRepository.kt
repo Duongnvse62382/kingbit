@@ -5,6 +5,6 @@ import com.king.kingbit.core.domain.Result
 import com.king.kingbit.home.domain.model.Coin
 
 interface CoinRepository {
-    suspend fun getTopCoin() : Result<MutableList<Coin>, DataError.Remote>
+    suspend fun getTopCoin(top : Int) : Result<MutableList<Coin>, DataError.Remote>
     suspend fun getCoinDetail(id : String) : Result<Coin, DataError.Remote>
 }

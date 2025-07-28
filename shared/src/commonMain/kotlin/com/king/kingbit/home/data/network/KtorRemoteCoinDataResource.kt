@@ -13,14 +13,14 @@ private const val BASE_URL = "https://api.coingecko.com/"
 class KtorRemoteCoinDataResource(
     private val httpClient: HttpClient
 ) : RemoteCoinDataResource {
-    override suspend fun searchCoins(): Result<MutableList<CoinDto>, DataError.Remote> {
+    override suspend fun searchCoins(top: Int): Result<MutableList<CoinDto>, DataError.Remote> {
         return safeCall {
             httpClient.get(
                 urlString = "$BASE_URL/api/v3/coins/markets"
             ) {
                 parameter("vs_currency", "usd")
                 parameter("order", "market_cap_desc")
-                parameter("per_page", 20)
+                parameter("per_page", top)
                 parameter("page", 1)
                 parameter("sparkline", false)
             }

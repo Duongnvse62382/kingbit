@@ -9,8 +9,8 @@ import com.king.kingbit.home.domain.model.Coin
 import com.king.kingbit.home.domain.usecase.CoinRepository
 
 class CoinRepositoryImp(private val remoteCoinDataResource: RemoteCoinDataResource) : CoinRepository {
-    override suspend fun getTopCoin(): Result<MutableList<Coin>, DataError.Remote> {
-        return remoteCoinDataResource.searchCoins().map { dtoList ->
+    override suspend fun getTopCoin(top: Int): Result<MutableList<Coin>, DataError.Remote> {
+        return remoteCoinDataResource.searchCoins(top).map { dtoList ->
             dtoList.map { it.toCoin() }.toMutableList()
         }
     }

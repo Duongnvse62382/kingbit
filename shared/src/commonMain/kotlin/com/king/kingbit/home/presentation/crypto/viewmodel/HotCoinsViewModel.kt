@@ -1,4 +1,4 @@
-package com.king.kingbit.home.presentation
+package com.king.kingbit.home.presentation.crypto.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,24 +6,25 @@ import com.king.kingbit.core.domain.onError
 import com.king.kingbit.core.domain.onSuccess
 import com.king.kingbit.home.domain.model.Coin
 import com.king.kingbit.home.domain.usecase.CoinRepository
+import com.king.kingbit.home.presentation.crypto.CoinListAction
+import com.king.kingbit.home.presentation.crypto.CoinListEvent
+import com.king.kingbit.home.presentation.crypto.TopCoinState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-
-class HomeViewModel(private val coinRepository: CoinRepository) : ViewModel() {
+class HotCoinsViewModel(private val coinRepository: CoinRepository) : ViewModel() {
     private val _state = MutableStateFlow(TopCoinState())
     val state = _state.onStart {
-        loadTopCoin()
+        loadHotCoins()
     }.stateIn(
         viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
+        started = SharingStarted.Companion.WhileSubscribed(5000),
         initialValue = TopCoinState()
     )
 
@@ -46,7 +47,7 @@ class HomeViewModel(private val coinRepository: CoinRepository) : ViewModel() {
     }
 
 
-    private fun loadTopCoin() {
+    private fun loadHotCoins() {
         viewModelScope.launch {
             _state.update {
                 it.copy(
@@ -54,7 +55,7 @@ class HomeViewModel(private val coinRepository: CoinRepository) : ViewModel() {
                 )
             }
 
-            coinRepository.getTopCoin().onSuccess { result ->
+            coinRepository.getTopCoin(20).onSuccess { result ->
                 _state.update {
                     it.copy(
                         isLoading = false, topCoin = result
@@ -72,4 +73,5 @@ class HomeViewModel(private val coinRepository: CoinRepository) : ViewModel() {
             }
         }
     }
+
 }

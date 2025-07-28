@@ -30,10 +30,10 @@ import androidx.navigation.NavController
 import com.king.kingbit.android.design.KingBitButton
 import com.king.kingbit.android.presentation.home.crypto.components.CoinListItem
 import com.king.kingbit.android.presentation.home.crypto.constants.CoinListItemConstants
-import com.king.kingbit.home.presentation.CoinListAction
-import com.king.kingbit.home.presentation.CoinListEvent
-import com.king.kingbit.home.presentation.HomeViewModel
-import com.king.kingbit.home.presentation.TopCoinState
+import com.king.kingbit.home.presentation.crypto.CoinListAction
+import com.king.kingbit.home.presentation.crypto.CoinListEvent
+import com.king.kingbit.home.presentation.crypto.viewmodel.HotCoinsViewModel
+import com.king.kingbit.home.presentation.crypto.TopCoinState
 import com.king.kingbit.login.presentation.LoginAction
 import com.king.kingbit.login.presentation.LoginViewModel
 import com.king.kingbit.util.Route
@@ -41,10 +41,10 @@ import com.king.kingbit.util.Route.*
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun CoinListRootScreen(
+fun HotCoinsRootScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    homeViewModel: HomeViewModel = koinViewModel()
+    homeViewModel: HotCoinsViewModel = koinViewModel()
 ) {
     val state by homeViewModel.state.collectAsStateWithLifecycle()
 
@@ -63,7 +63,7 @@ fun CoinListRootScreen(
                 }
 
                 CoinListEvent.NavigateToMoreCoins -> {
-                    navController.navigate(CoinTop)
+                    navController.navigate(TopCrypto)
                 }
             }
         }
@@ -145,11 +145,7 @@ fun CoinListScreen(
                     Spacer(modifier = Modifier.height(15.dp))
                 }
             }
-
-
         }
-
-
     }
 }
 
